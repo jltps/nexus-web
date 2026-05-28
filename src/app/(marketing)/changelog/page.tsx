@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Prose } from "@/components/docs/prose";
 import { getRecentReleases, tagToVersion } from "@/lib/github-releases";
+import { STATIC_CHANGELOG } from "@/lib/static-changelog";
 
 export const metadata: Metadata = {
   title: "Changelog",
@@ -44,44 +45,63 @@ function renderNotes(md: string): React.ReactNode {
   );
 }
 
+type Entry = {
+  tag: string;
+  publishedAt: string | null;
+  body: string;
+  htmlUrl: string | null;
+};
+
 export default async function ChangelogPage() {
-  const releases = await getRecentReleases(20);
+  const live = await getRecentReleases(20);
+
+  const entries: Entry[] =
+    live.length > 0
+      ? live.map((r) => ({
+          tag: r.tag_name,
+          publishedAt: r.published_at,
+          body: r.body ?? "",
+          htmlUrl: r.html_url,
+        }))
+      : STATIC_CHANGELOG.map((r) => ({
+          tag: r.tag,
+          publishedAt: r.date,
+          body: r.body,
+          htmlUrl: null,
+        }));
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
       <Prose>
         <h1>Changelog</h1>
         <p>
-          Releases live on GitHub. This page reflects the latest 20 stable
-          releases. For the full list visit the{" "}
+          Stable releases of the Nexus desktop app. For installers visit the{" "}
           <Link href="/download">Download page</Link>.
         </p>
-        {releases.length === 0 ? (
-          <p>No releases published yet.</p>
-        ) : (
-          releases.map((r) => (
-            <article
-              key={r.tag_name}
-              className="rounded-lg border bg-card p-6 shadow-xs"
-            >
-              <header className="!mb-4 flex flex-wrap items-baseline gap-3 border-b pb-3">
-                <h2 className="!mt-0 !mb-0">v{tagToVersion(r.tag_name)}</h2>
-                <span className="text-sm text-muted-foreground">
-                  {formatDate(r.published_at)}
-                </span>
+        {entries.map((e) => (
+          <article
+            key={e.tag}
+            className="rounded-lg border bg-card p-6 shadow-xs"
+          >
+            <header className="!mb-4 flex flex-wrap items-baseline gap-3 border-b pb-3">
+              <h2 className="!mt-0 !mb-0">v{tagToVersion(e.tag)}</h2>
+              <span className="text-sm text-muted-foreground">
+                {formatDate(e.publishedAt)}
+              </span>
+              {e.htmlUrl ? (
                 <a
-                  href={r.html_url}
+                  href={e.htmlUrl}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="ml-auto text-sm"
                 >
                   GitHub →
                 </a>
-              </header>
-              <div>{renderNotes(r.body ?? "")}</div>
-            </article>
-          ))
-        )}
+              ) : null}
+            </header>
+            <div>{renderNotes(e.body)}</div>
+          </article>
+        ))}
       </Prose>
     </section>
   );
