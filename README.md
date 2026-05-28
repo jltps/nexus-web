@@ -5,7 +5,7 @@ a bot-free, device-audio meeting notepad for Windows.
 
 Live: `https://nexus-web.vercel.app` (Vercel free tier)
 Desktop app source: separate repository (`scribe/` inside `GranolaClone`).
-Release artifacts: `github.com/jlts2010/nexus-releases` (configurable via
+Release artifacts: `github.com/jltps/MeetingTranscriber` (configurable via
 `NEXUS_RELEASES_REPO`).
 
 ---
@@ -62,7 +62,7 @@ cache window). Optional:
 
 - `GITHUB_TOKEN` — raises GitHub API rate limit to 5000 req/h.
 - `NEXUS_RELEASES_REPO` — which `owner/repo` hosts the release artifacts
-  (defaults to `jlts2010/nexus-releases`).
+  (defaults to `jltps/MeetingTranscriber`).
 - `NEXT_PUBLIC_SITE_URL` — full URL of the deployment (used for metadata
   and the sitemap). Defaults to `https://nexus-web.vercel.app`.
 

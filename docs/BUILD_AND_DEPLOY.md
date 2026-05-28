@@ -38,7 +38,7 @@ dev). Never commit `.env*` with real values.
 
 | Var | Default | Purpose |
 |---|---|---|
-| `NEXUS_RELEASES_REPO` | `jlts2010/nexus-releases` | `owner/repo` of release artifacts |
+| `NEXUS_RELEASES_REPO` | `jltps/MeetingTranscriber` | `owner/repo` of release artifacts |
 | `GITHUB_TOKEN` | (unset) | Optional — raises GitHub API rate limit from 60 to 5000 req/h |
 | `NEXT_PUBLIC_SITE_URL` | `https://nexus-web.vercel.app` | Used for metadata / sitemap |
 

@@ -13,6 +13,7 @@
 
 import { NextResponse } from "next/server";
 import {
+  downloadAssetText,
   findInstallerAsset,
   getLatestRelease,
   tagToVersion,
@@ -60,18 +61,19 @@ export async function GET() {
     const latestYmlAsset = release.assets.find((a) => a.name === "latest.yml");
     let sha512 = "";
     if (latestYmlAsset) {
-      const ymlRes = await fetch(latestYmlAsset.browser_download_url, {
-        next: { revalidate: 300 },
-      });
-      if (ymlRes.ok) {
-        const yml = await ymlRes.text();
-        sha512 = extractSha512FromLatestYml(yml) ?? "";
-      }
+      const yml = await downloadAssetText(latestYmlAsset);
+      if (yml) sha512 = extractSha512FromLatestYml(yml) ?? "";
     }
+    // Point `url` at our proxy (works for private repos; works for public
+    // too). electron-updater will resolve `path` relative to the feed URL,
+    // landing at the same endpoint.
+    const siteUrl =
+      process.env.NEXT_PUBLIC_SITE_URL ?? "https://nexus-web.vercel.app";
+    const proxyUrl = `${siteUrl}/api/updates/${encodeURIComponent(installer.name)}`;
     const payload = UpdatesLatestResponseSchema.parse({
       version: tagToVersion(release.tag_name),
       releaseDate: new Date(release.published_at ?? Date.now()).toISOString(),
-      url: installer.browser_download_url,
+      url: proxyUrl,
       sha512,
       path: installer.name,
       notes: release.body ?? "",

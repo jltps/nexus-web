@@ -11,7 +11,7 @@
  */
 
 import { NextResponse } from "next/server";
-import { getLatestRelease } from "@/lib/github-releases";
+import { downloadAssetText, getLatestRelease } from "@/lib/github-releases";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -35,19 +35,18 @@ export async function GET() {
         },
       );
     }
-    const upstream = await fetch(yml.browser_download_url, {
-      next: { revalidate: 300 },
-    });
-    if (!upstream.ok) {
+    // Fetch through the authenticated API path so this works for private
+    // releases repos too.
+    const body = await downloadAssetText(yml);
+    if (body === null) {
       return new NextResponse(
-        `# Upstream latest.yml fetch failed: ${upstream.status}\n`,
+        "# Upstream latest.yml fetch failed.\n",
         {
           status: 502,
           headers: { "Content-Type": "application/x-yaml; charset=utf-8" },
         },
       );
     }
-    const body = await upstream.text();
     return new NextResponse(body, {
       status: 200,
       headers: {

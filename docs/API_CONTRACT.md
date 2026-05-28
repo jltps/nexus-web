@@ -11,7 +11,7 @@ they're meant to be used.
 
 The `/api/updates/*` endpoints proxy the latest stable release from a
 public GitHub repo. Configured via the `NEXUS_RELEASES_REPO` env var
-(default: `jlts2010/nexus-releases`).
+(default: `jltps/MeetingTranscriber`).
 
 **Asset naming** (electron-builder defaults): each release must contain at
 minimum:
@@ -46,7 +46,7 @@ minimum:
 {
   "version": "0.7.0",
   "releaseDate": "2026-05-28T13:45:00.000Z",
-  "url": "https://github.com/jlts2010/nexus-releases/releases/download/v0.7.0/Nexus-Setup-0.7.0.exe",
+  "url": "https://github.com/jltps/MeetingTranscriber/releases/download/v0.7.0/Nexus-Setup-0.7.0.exe",
   "sha512": "...base64...",
   "path": "Nexus-Setup-0.7.0.exe",
   "notes": "## v0.7.0\n- ..."

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { CopyButton } from "@/components/marketing/copy-button";
 import {
+  downloadAssetText,
   findInstallerAsset,
   getLatestRelease,
   getRecentReleases,
@@ -37,17 +38,10 @@ function bytesToMB(b: number): string {
   return `${(b / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-async function fetchLatestSha512(latestYmlUrl: string): Promise<string | null> {
-  try {
-    const res = await fetch(latestYmlUrl, { next: { revalidate: 300 } });
-    if (!res.ok) return null;
-    const yml = await res.text();
-    for (const line of yml.split(/\r?\n/)) {
-      const m = line.match(/^\s*sha512:\s*(.+)\s*$/);
-      if (m && m[1]) return m[1].trim();
-    }
-  } catch {
-    /* network/abort — silent */
+function parseSha512(yml: string): string | null {
+  for (const line of yml.split(/\r?\n/)) {
+    const m = line.match(/^\s*sha512:\s*(.+)\s*$/);
+    if (m && m[1]) return m[1].trim();
   }
   return null;
 }
@@ -59,22 +53,82 @@ export default async function DownloadPage() {
   ]);
 
   if (!latest) {
+    const repo =
+      process.env.NEXUS_RELEASES_REPO ?? "jltps/MeetingTranscriber";
     return (
-      <section className="mx-auto max-w-3xl px-4 py-20 sm:px-6">
-        <h1 className="text-3xl font-semibold tracking-tight">
-          Download Nexus
-        </h1>
-        <p className="mt-4 text-muted-foreground">
-          The first stable release hasn't been published yet. Check back soon
-          — or follow the GitHub repository for updates.
-        </p>
+      <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
+        <div className="text-center">
+          <Badge variant="muted" className="mb-4 rounded-full px-3 py-1">
+            Coming soon
+          </Badge>
+          <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl">
+            Download Nexus for Windows
+          </h1>
+          <p className="mt-4 text-muted-foreground">
+            The first stable build hasn&apos;t shipped yet. Watch the repo on
+            GitHub to be notified the moment it does.
+          </p>
+        </div>
+
+        <div className="mt-10 rounded-2xl border bg-card p-6 shadow-xs sm:p-8">
+          <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+              <h2 className="text-base font-semibold">Nexus-Setup.exe</h2>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Native NSIS installer · Windows 10/11 (64-bit)
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <Button disabled size="lg">
+                <Download className="mr-2 size-4" />
+                Download coming soon
+              </Button>
+              <Button asChild variant="outline" size="lg">
+                <a
+                  href={`https://github.com/${repo}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <ExternalLink className="mr-2 size-4" />
+                  Watch on GitHub
+                </a>
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
+          <div className="rounded-lg border bg-card p-5">
+            <Cpu className="mb-2 size-4 text-primary" />
+            <h3 className="text-sm font-semibold">System requirements</h3>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>· Windows 10 or 11, 64-bit</li>
+              <li>· ~250 MB free disk space</li>
+              <li>· Microphone + speakers (or headphones)</li>
+              <li>· Internet for cloud LLM / transcription (optional)</li>
+            </ul>
+          </div>
+          <div className="rounded-lg border bg-card p-5">
+            <ShieldCheck className="mb-2 size-4 text-primary" />
+            <h3 className="text-sm font-semibold">Safe by default</h3>
+            <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
+              <li>· Audio never written to disk</li>
+              <li>· Keys stored via Windows DPAPI</li>
+              <li>· No bot, no meeting-platform integration</li>
+              <li>· No analytics or trackers in the app</li>
+            </ul>
+          </div>
+        </div>
       </section>
     );
   }
 
   const installer = findInstallerAsset(latest);
   const latestYml = latest.assets.find((a) => a.name === "latest.yml");
-  const sha512 = latestYml ? await fetchLatestSha512(latestYml.browser_download_url) : null;
+  // Pull sha512 out of latest.yml via the authenticated API path — works
+  // for private repos.
+  const yml = latestYml ? await downloadAssetText(latestYml) : null;
+  const sha512 = yml ? parseSha512(yml) : null;
   const version = tagToVersion(latest.tag_name);
 
   return (
@@ -105,8 +159,12 @@ export default async function DownloadPage() {
           <div className="flex flex-wrap gap-2">
             {installer ? (
               <Button asChild size="lg">
+                {/* Always link through /api/updates/<name>. For a private
+                 *  releases repo, the GitHub URL would 404 — the proxy
+                 *  handles auth server-side and 302s to a presigned
+                 *  short-lived URL. Works equally for public repos. */}
                 <a
-                  href={installer.browser_download_url}
+                  href={`/api/updates/${encodeURIComponent(installer.name)}`}
                   rel="noopener"
                 >
                   <Download className="mr-2 size-4" />
@@ -205,7 +263,7 @@ export default async function DownloadPage() {
       <p className="mt-10 text-center text-xs text-muted-foreground">
         Looking for older releases or other formats? Visit the{" "}
         <a
-          href={`https://github.com/${process.env.NEXUS_RELEASES_REPO ?? "jlts2010/nexus-releases"}/releases`}
+          href={`https://github.com/${process.env.NEXUS_RELEASES_REPO ?? "jltps/MeetingTranscriber"}/releases`}
           target="_blank"
           rel="noopener noreferrer"
           className="underline"

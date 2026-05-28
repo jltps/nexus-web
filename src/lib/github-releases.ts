@@ -11,10 +11,15 @@
 import { z } from "zod";
 
 const RELEASES_REPO =
-  process.env.NEXUS_RELEASES_REPO ?? "jlts2010/nexus-releases";
+  process.env.NEXUS_RELEASES_REPO ?? "jltps/MeetingTranscriber";
 
 const GitHubAssetSchema = z.object({
+  id: z.number(),
   name: z.string(),
+  /** API endpoint for downloading the asset bytes (works for private repos
+   *  when paired with `Accept: application/octet-stream` + a token). */
+  url: z.string().url(),
+  /** Public download URL — only resolves for public repos. */
   browser_download_url: z.string().url(),
   size: z.number(),
   content_type: z.string(),
@@ -91,7 +96,7 @@ export function findInstallerAsset(
   return (
     release.assets.find(
       (a) =>
-        /^Nexus[- ]Setup[- ].*\.exe$/i.test(a.name) ||
+        /^Nexus[-. ]Setup[-. ].*\.exe$/i.test(a.name) ||
         a.name.toLowerCase().endsWith(".exe"),
     ) ?? null
   );
@@ -102,4 +107,40 @@ export function findLatestYmlAsset(
   release: GitHubRelease,
 ): GitHubRelease["assets"][number] | null {
   return release.assets.find((a) => a.name === "latest.yml") ?? null;
+}
+
+/** Download an asset's bytes via the GitHub API (works for both public and
+ *  private repos when a token is available). Returns null on any failure
+ *  short of throwing — callers degrade gracefully. */
+export async function downloadAssetBytes(
+  asset: GitHubRelease["assets"][number],
+): Promise<Response | null> {
+  const headers: Record<string, string> = {
+    Accept: "application/octet-stream",
+    "X-GitHub-Api-Version": "2022-11-28",
+    "User-Agent": "nexus-web/1.0",
+  };
+  if (process.env.GITHUB_TOKEN) {
+    headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+  try {
+    const res = await fetch(asset.url, {
+      headers,
+      // The data behind this URL is keyed by release; safe to cache for
+      // the same window as the release listing.
+      next: { revalidate: REVALIDATE_SECONDS },
+    });
+    if (!res.ok) return null;
+    return res;
+  } catch {
+    return null;
+  }
+}
+
+/** Convenience wrapper: fetch and decode as UTF-8 text. */
+export async function downloadAssetText(
+  asset: GitHubRelease["assets"][number],
+): Promise<string | null> {
+  const res = await downloadAssetBytes(asset);
+  return res ? res.text() : null;
 }
