@@ -1,13 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Prose } from "@/components/docs/prose";
-import { getRecentReleases, tagToVersion } from "@/lib/github-releases";
+import {
+  getRecentReleasesIncludingPrereleases,
+  tagToVersion,
+} from "@/lib/github-releases";
 import { STATIC_CHANGELOG } from "@/lib/static-changelog";
 
 export const metadata: Metadata = {
   title: "Changelog",
-  description:
-    "Release notes for Nexus, pulled live from GitHub Releases.",
+  description: "Release notes for Nexus.",
 };
 
 export const revalidate = 300;
@@ -49,25 +51,32 @@ type Entry = {
   tag: string;
   publishedAt: string | null;
   body: string;
-  htmlUrl: string | null;
 };
 
+/** Resolve an effective body for a live release: prefer the GitHub release
+ *  body, fall back to a matching STATIC_CHANGELOG entry, then to a neutral
+ *  placeholder. */
+function effectiveBody(tag: string, body: string): string {
+  if (body.trim()) return body;
+  const fallback = STATIC_CHANGELOG.find((s) => s.tag === tag);
+  if (fallback) return fallback.body;
+  return "Release notes not provided.";
+}
+
 export default async function ChangelogPage() {
-  const live = await getRecentReleases(20);
+  const live = await getRecentReleasesIncludingPrereleases(20);
 
   const entries: Entry[] =
     live.length > 0
       ? live.map((r) => ({
           tag: r.tag_name,
           publishedAt: r.published_at,
-          body: r.body ?? "",
-          htmlUrl: r.html_url,
+          body: effectiveBody(r.tag_name, r.body ?? ""),
         }))
       : STATIC_CHANGELOG.map((r) => ({
           tag: r.tag,
           publishedAt: r.date,
           body: r.body,
-          htmlUrl: null,
         }));
 
   return (
@@ -78,30 +87,24 @@ export default async function ChangelogPage() {
           Stable releases of the Nexus desktop app. For installers visit the{" "}
           <Link href="/download">Download page</Link>.
         </p>
-        {entries.map((e) => (
-          <article
-            key={e.tag}
-            className="rounded-lg border bg-card p-6 shadow-xs"
-          >
-            <header className="!mb-4 flex flex-wrap items-baseline gap-3 border-b pb-3">
-              <h2 className="!mt-0 !mb-0">v{tagToVersion(e.tag)}</h2>
-              <span className="text-sm text-muted-foreground">
-                {formatDate(e.publishedAt)}
-              </span>
-              {e.htmlUrl ? (
-                <a
-                  href={e.htmlUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="ml-auto text-sm"
-                >
-                  GitHub →
-                </a>
-              ) : null}
-            </header>
-            <div>{renderNotes(e.body)}</div>
-          </article>
-        ))}
+        {entries.map((e) => {
+          const version = tagToVersion(e.tag);
+          return (
+            <article
+              key={e.tag}
+              id={`v${version}`}
+              className="rounded-lg border bg-card p-6 shadow-xs scroll-mt-24"
+            >
+              <header className="!mb-4 flex flex-wrap items-baseline gap-3 border-b pb-3">
+                <h2 className="!mt-0 !mb-0">v{version}</h2>
+                <span className="text-sm text-muted-foreground">
+                  {formatDate(e.publishedAt)}
+                </span>
+              </header>
+              <div>{renderNotes(e.body)}</div>
+            </article>
+          );
+        })}
       </Prose>
     </section>
   );

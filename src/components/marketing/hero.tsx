@@ -27,7 +27,7 @@ export function Hero() {
           <Button asChild size="xl">
             <Link href="/download">
               <Download className="mr-2 size-4" />
-              Download for Windows
+              Download
             </Link>
           </Button>
           <Button asChild size="xl" variant="outline">
@@ -38,8 +38,7 @@ export function Hero() {
           </Button>
         </div>
         <p className="mt-5 text-xs text-muted-foreground">
-          Free. Open releases on GitHub. Works with Zoom, Teams, Meet, Slack
-          huddles, and plain VoIP.
+          Free. Works with Zoom, Teams, Meet, Slack huddles, and plain VoIP.
         </p>
       </div>
     </section>

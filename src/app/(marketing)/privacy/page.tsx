@@ -103,10 +103,9 @@ export default function PrivacyPage() {
           so we don&rsquo;t need a cookie banner.
         </p>
         <p>
-          The one network call you may notice is to{" "}
-          <code>api.github.com</code> from our server, to fetch the latest
-          Nexus release for the download page. Your browser does not contact
-          GitHub directly.
+          The one network call you may notice is from our server to a
+          third-party release host, to fetch the latest Nexus installer for
+          the download page. Your browser does not contact that host directly.
         </p>
 
         <h2>What happens if cloud features ship later</h2>

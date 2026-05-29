@@ -1,11 +1,9 @@
 import Link from "next/link";
-import { Download, ExternalLink, ShieldCheck, Cpu } from "lucide-react";
+import { Download, ShieldCheck, Cpu } from "lucide-react";
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { CopyButton } from "@/components/marketing/copy-button";
 import {
-  downloadAssetText,
   findInstallerAsset,
   getLatestRelease,
   getRecentReleases,
@@ -15,7 +13,7 @@ import {
 export const metadata: Metadata = {
   title: "Download for Windows",
   description:
-    "Free Nexus installer for Windows 10/11 (64-bit). Native NSIS installer, signed by tag, served from GitHub Releases.",
+    "Free Nexus installer for Windows 10/11 (64-bit). Native NSIS installer, signed by tag.",
 };
 
 // ISR-friendly — page is fully cached for 5 minutes via the underlying fetch().
@@ -38,14 +36,6 @@ function bytesToMB(b: number): string {
   return `${(b / (1024 * 1024)).toFixed(1)} MB`;
 }
 
-function parseSha512(yml: string): string | null {
-  for (const line of yml.split(/\r?\n/)) {
-    const m = line.match(/^\s*sha512:\s*(.+)\s*$/);
-    if (m && m[1]) return m[1].trim();
-  }
-  return null;
-}
-
 export default async function DownloadPage() {
   const [latest, recent] = await Promise.all([
     getLatestRelease(),
@@ -53,8 +43,6 @@ export default async function DownloadPage() {
   ]);
 
   if (!latest) {
-    const repo =
-      process.env.NEXUS_RELEASES_REPO ?? "jltps/MeetingTranscriber";
     return (
       <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
         <div className="text-center">
@@ -65,8 +53,7 @@ export default async function DownloadPage() {
             Download Nexus for Windows
           </h1>
           <p className="mt-4 text-muted-foreground">
-            The first stable build hasn&apos;t shipped yet. Watch the repo on
-            GitHub to be notified the moment it does.
+            The first stable build is on the way. Check back soon.
           </p>
         </div>
 
@@ -81,17 +68,7 @@ export default async function DownloadPage() {
             <div className="flex flex-wrap gap-2">
               <Button disabled size="lg">
                 <Download className="mr-2 size-4" />
-                Download coming soon
-              </Button>
-              <Button asChild variant="outline" size="lg">
-                <a
-                  href={`https://github.com/${repo}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <ExternalLink className="mr-2 size-4" />
-                  Watch on GitHub
-                </a>
+                Coming soon
               </Button>
             </div>
           </div>
@@ -103,7 +80,7 @@ export default async function DownloadPage() {
             <h3 className="text-sm font-semibold">System requirements</h3>
             <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
               <li>· Windows 10 or 11, 64-bit</li>
-              <li>· ~250 MB free disk space</li>
+              <li>· 500 MB free space</li>
               <li>· Microphone + speakers (or headphones)</li>
               <li>· Internet for cloud LLM / transcription (optional)</li>
             </ul>
@@ -124,11 +101,6 @@ export default async function DownloadPage() {
   }
 
   const installer = findInstallerAsset(latest);
-  const latestYml = latest.assets.find((a) => a.name === "latest.yml");
-  // Pull sha512 out of latest.yml via the authenticated API path — works
-  // for private repos.
-  const yml = latestYml ? await downloadAssetText(latestYml) : null;
-  const sha512 = yml ? parseSha512(yml) : null;
   const version = tagToVersion(latest.tag_name);
 
   return (
@@ -160,7 +132,7 @@ export default async function DownloadPage() {
             {installer ? (
               <Button asChild size="lg">
                 {/* Always link through /api/updates/<name>. For a private
-                 *  releases repo, the GitHub URL would 404 — the proxy
+                 *  releases repo, the upstream URL would 404 — the proxy
                  *  handles auth server-side and 302s to a presigned
                  *  short-lived URL. Works equally for public repos. */}
                 <a
@@ -168,7 +140,7 @@ export default async function DownloadPage() {
                   rel="noopener"
                 >
                   <Download className="mr-2 size-4" />
-                  Download .exe
+                  Download
                 </a>
               </Button>
             ) : (
@@ -176,38 +148,8 @@ export default async function DownloadPage() {
                 No installer in this release
               </Button>
             )}
-            <Button asChild variant="outline" size="lg">
-              <a
-                href={latest.html_url}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <ExternalLink className="mr-2 size-4" />
-                GitHub Release
-              </a>
-            </Button>
           </div>
         </div>
-
-        {sha512 ? (
-          <div className="mt-6 rounded-md border bg-muted/40 p-4">
-            <p className="text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-              SHA-512 checksum
-            </p>
-            <div className="mt-2 flex items-start gap-3">
-              <code className="break-all font-mono text-xs leading-relaxed">
-                {sha512}
-              </code>
-              <CopyButton value={sha512} label="Copy SHA-512" />
-            </div>
-            <p className="mt-2 text-xs text-muted-foreground">
-              Verify with PowerShell:{" "}
-              <code className="font-mono">
-                Get-FileHash -Algorithm SHA512 .\Nexus-Setup-{version}.exe
-              </code>
-            </p>
-          </div>
-        ) : null}
       </div>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">
@@ -216,7 +158,7 @@ export default async function DownloadPage() {
           <h3 className="text-sm font-semibold">System requirements</h3>
           <ul className="mt-2 space-y-1 text-sm text-muted-foreground">
             <li>· Windows 10 or 11, 64-bit</li>
-            <li>· ~250 MB free disk space</li>
+            <li>· 500 MB free space</li>
             <li>· Microphone + speakers (or headphones)</li>
             <li>· Internet for cloud LLM / transcription (optional)</li>
           </ul>
@@ -249,7 +191,7 @@ export default async function DownloadPage() {
                   </span>
                 </div>
                 <Link
-                  href={r.html_url}
+                  href={`/changelog#v${tagToVersion(r.tag_name)}`}
                   className="text-sm text-primary hover:underline"
                 >
                   Notes →
@@ -259,19 +201,6 @@ export default async function DownloadPage() {
           </ol>
         </div>
       ) : null}
-
-      <p className="mt-10 text-center text-xs text-muted-foreground">
-        Looking for older releases or other formats? Visit the{" "}
-        <a
-          href={`https://github.com/${process.env.NEXUS_RELEASES_REPO ?? "jltps/MeetingTranscriber"}/releases`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="underline"
-        >
-          GitHub Releases page
-        </a>
-        .
-      </p>
     </section>
   );
 }

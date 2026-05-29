@@ -88,8 +88,9 @@ export default function Page() {
 
       <h2>Still stuck?</h2>
       <p>
-        Open an issue on the GitHub repository. Include your Nexus version
-        (Settings → About), the log excerpt, and the steps to reproduce.
+        Email <a href="mailto:jlts2010@gmail.com">jlts2010@gmail.com</a> with
+        your Nexus version (Settings → About), the log excerpt, and the steps
+        to reproduce.
       </p>
     </Prose>
   );

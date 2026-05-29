@@ -83,6 +83,18 @@ export async function getRecentReleases(limit = 5): Promise<GitHubRelease[]> {
   return all.filter((r) => !r.draft && !r.prerelease).slice(0, limit);
 }
 
+/** Recent releases for the public changelog. Skips drafts only — prereleases
+ *  are surfaced here so early versions (v0.0.x) show up. The download/auto-
+ *  update path keeps using `getRecentReleases` (stable only). */
+export async function getRecentReleasesIncludingPrereleases(
+  limit = 20,
+): Promise<GitHubRelease[]> {
+  const data = await gh(`/releases?per_page=${Math.min(100, limit * 2)}`);
+  if (data === null) return [];
+  const all = GitHubReleasesListSchema.parse(data);
+  return all.filter((r) => !r.draft).slice(0, limit);
+}
+
 /** Strip a leading "v" and any pre-release suffix's leading dash from a tag. */
 export function tagToVersion(tag: string): string {
   return tag.replace(/^v/, "");

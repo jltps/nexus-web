@@ -34,7 +34,7 @@ const items = [
   },
   {
     q: "Is Nexus open source?",
-    a: "The downloadable installer is free. The release artifacts and changelog live on GitHub. Source-code licensing details are documented in the repository.",
+    a: "The downloadable installer is free. Source-code licensing details are documented separately.",
   },
 ];
 

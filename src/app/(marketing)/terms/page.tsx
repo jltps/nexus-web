@@ -52,7 +52,7 @@ export default function TermsPage() {
         <h2>Updates</h2>
         <p>
           We may update Nexus at any time. Updates are downloaded over HTTPS
-          from GitHub Releases. You can decline to update; older versions
+          from our update feed. You can decline to update; older versions
           continue to work but may not receive security fixes.
         </p>
 

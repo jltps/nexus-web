@@ -13,9 +13,10 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/terms",
     "/changelog",
     "/roadmap",
+    "/about",
   ];
   const docs = docsAllHrefs;
-  const all = [...marketing, ...docs];
+  const all = Array.from(new Set([...marketing, ...docs]));
   return all.map((path) => ({
     url: `${siteUrl}${path}`,
     lastModified: now,

@@ -29,6 +29,10 @@ export const docsSections: DocSection[] = [
       { href: "/docs/troubleshooting", label: "Troubleshooting" },
     ],
   },
+  {
+    title: "About",
+    links: [{ href: "/about", label: "About" }],
+  },
 ];
 
 /** Flat list of doc slugs (relative paths) for the sitemap. */

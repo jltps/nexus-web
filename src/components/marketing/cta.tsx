@@ -16,7 +16,7 @@ export function CTA() {
           <Button asChild size="xl">
             <Link href="/download">
               <Download className="mr-2 size-4" />
-              Download for Windows
+              Download
             </Link>
           </Button>
           <Button asChild size="xl" variant="ghost">

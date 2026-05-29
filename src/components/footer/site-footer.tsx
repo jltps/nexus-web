@@ -29,12 +29,9 @@ export function SiteFooter() {
           <Link href="/changelog" className="hover:text-foreground">
             Changelog
           </Link>
-          <a
-            href="/.well-known/security.txt"
-            className="hover:text-foreground"
-          >
-            Security
-          </a>
+          <Link href="/about" className="hover:text-foreground">
+            About
+          </Link>
         </nav>
       </div>
     </footer>
