@@ -8,17 +8,19 @@ const siteUrl =
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "Nexus — bot-free meeting notepad for Windows",
+    default: "Nexus — bot-free meeting notepad for Windows & macOS",
     template: "%s · Nexus",
   },
   description:
-    "Capture your full meeting transcript without any bot joining the call. Nexus is a privacy-first, device-audio meeting notepad for Windows.",
+    "Capture your full meeting transcript without any bot joining the call. Nexus is a privacy-first, device-audio meeting notepad for Windows and macOS.",
   applicationName: "Nexus",
   authors: [{ name: "Nexus" }],
   keywords: [
     "meeting notes",
     "meeting transcription",
     "Windows",
+    "macOS",
+    "Mac meeting notes",
     "Zoom transcription",
     "Teams transcription",
     "no bot transcription",
@@ -31,14 +33,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     siteName: "Nexus",
-    title: "Nexus — bot-free meeting notepad for Windows",
+    title: "Nexus — bot-free meeting notepad for Windows & macOS",
     description:
       "Capture your full meeting transcript without any bot joining the call.",
     url: siteUrl,
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nexus — bot-free meeting notepad for Windows",
+    title: "Nexus — bot-free meeting notepad for Windows & macOS",
     description:
       "Capture your full meeting transcript without any bot joining the call.",
   },

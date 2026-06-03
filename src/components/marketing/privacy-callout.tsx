@@ -9,7 +9,7 @@ const invariants: { title: string; body: string }[] = [
   },
   {
     title: "API keys never reach the renderer",
-    body: "Keys are encrypted with Windows DPAPI and only used inside the main process. They are never logged, never sent to any analytics, never exposed to web code.",
+    body: "Keys are encrypted with the OS keychain (Windows DPAPI / macOS Keychain) and only used inside the main process. They are never logged, never sent to any analytics, never exposed to web code.",
   },
   {
     title: "No bot, no meeting-platform integration",

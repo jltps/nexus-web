@@ -14,7 +14,7 @@ const items = [
   {
     icon: KeyRound,
     title: "Bring your own keys",
-    body: "Anthropic, Deepgram, or an OpenAI-compatible provider — your choice. Keys are encrypted with Windows DPAPI and never leave the main process.",
+    body: "Anthropic, Deepgram, or an OpenAI-compatible provider — your choice. Keys are encrypted with the OS keychain (Windows DPAPI / macOS Keychain) and never leave the main process.",
   },
   {
     icon: WifiOff,

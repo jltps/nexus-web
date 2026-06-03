@@ -24,7 +24,7 @@ export default function Page() {
           play out of.
         </li>
         <li>
-          Restart Nexus after changing the default playback device — Windows
+          Restart Nexus after changing the default playback device — the OS
           loopback handles tie to whatever was current at launch.
         </li>
       </ul>
@@ -72,18 +72,21 @@ export default function Page() {
 
       <h2>Where are the logs?</h2>
       <p>
-        Logs live in <code>%APPDATA%/com.scribe.app/logs/</code>. They are
-        scrubbed of audio bytes and API keys before write. You can share them
-        when filing a bug — they&rsquo;re plain text.
+        Logs live in <code>%APPDATA%/com.scribe.app/logs/</code> on Windows, or{" "}
+        <code>~/Library/Logs/Nexus/</code> on macOS. They are scrubbed of audio
+        bytes and API keys before write. You can share them when filing a bug —
+        they&rsquo;re plain text.
       </p>
 
       <h2>Where is my data stored?</h2>
       <p>
         SQLite database at{" "}
-        <code>%APPDATA%/com.scribe.app/scribe.sqlite</code>. (The legacy
-        &ldquo;scribe&rdquo; name is kept on purpose so existing user data is
-        not orphaned.) Encrypted secrets are stored separately via Windows
-        DPAPI; they never appear in the SQLite file.
+        <code>%APPDATA%/com.scribe.app/scribe.sqlite</code> on Windows, or{" "}
+        <code>~/Library/Application Support/com.scribe.app/scribe.sqlite</code>{" "}
+        on macOS. (The legacy &ldquo;scribe&rdquo; name is kept on purpose so
+        existing user data is not orphaned.) Encrypted secrets are stored
+        separately via the OS keychain (Windows DPAPI / macOS Keychain); they
+        never appear in the SQLite file.
       </p>
 
       <h2>Still stuck?</h2>

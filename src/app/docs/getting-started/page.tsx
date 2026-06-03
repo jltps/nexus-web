@@ -13,22 +13,25 @@ export default function Page() {
     <Prose>
       <h1>Getting started</h1>
       <p>
-        Nexus is a desktop app for Windows. You'll be capturing your first
-        meeting in under five minutes.
+        Nexus is a desktop app for Windows and macOS. You'll be capturing your
+        first meeting in under five minutes.
       </p>
 
       <h2>1. Install</h2>
       <ol>
         <li>
-          Go to the <Link href="/download">Download</Link> page and click
-          <em> Download .exe</em>.
+          Go to the <Link href="/download">Download</Link> page and pick the
+          build for your OS — <em>.exe</em> for Windows, <em>.dmg</em> for macOS
+          (Apple Silicon).
         </li>
         <li>
-          Run the installer. Windows SmartScreen may warn the first time —
-          click <em>More info → Run anyway</em>. Verify the SHA-512 on the
-          download page if you want to be thorough.
+          Run the installer. On Windows, SmartScreen may warn the first time —
+          click <em>More info → Run anyway</em>. On macOS, drag Nexus to
+          Applications; if Gatekeeper blocks it, right-click the app and choose{" "}
+          <em>Open</em>. Verify the SHA-512 on the download page if you want to
+          be thorough.
         </li>
-        <li>Launch Nexus from the Start menu or Desktop shortcut.</li>
+        <li>Launch Nexus from the Start menu or your Applications folder.</li>
       </ol>
 
       <h2>2. Pick your transcription path</h2>

@@ -1,6 +1,6 @@
 import { ImageResponse } from "next/og";
 
-export const alt = "Nexus — bot-free meeting notepad for Windows";
+export const alt = "Nexus — bot-free meeting notepad for Windows & macOS";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -62,8 +62,8 @@ export default function OG() {
             Never let a bot join the call.
           </div>
           <div style={{ marginTop: 32, fontSize: 28, color: "#a3a3a3" }}>
-            Bot-free meeting notepad for Windows · Local-first · Bring your
-            own keys
+            Bot-free meeting notepad for Windows & macOS · Local-first · BYO
+            keys
           </div>
         </div>
       </div>

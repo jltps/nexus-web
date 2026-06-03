@@ -10,7 +10,7 @@ export function SiteFooter() {
           <span className="font-semibold text-foreground">Nexus</span>
           <span className="hidden md:inline">·</span>
           <span className="hidden md:inline">
-            Bot-free meeting notepad for Windows
+            Bot-free meeting notepad for Windows & macOS
           </span>
         </div>
         <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label="Footer">

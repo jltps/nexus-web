@@ -10,7 +10,7 @@ export function Hero() {
       <div className="mx-auto flex max-w-5xl flex-col items-center px-4 pb-12 pt-16 text-center sm:px-6 sm:pt-24">
         <Logo size={56} className="mb-6" />
         <Badge variant="muted" className="mb-6 rounded-full px-3 py-1">
-          Windows · Local-first · Bot-free
+          Windows & macOS · Local-first · Bot-free
         </Badge>
         <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl">
           Capture your full meeting.
@@ -18,7 +18,8 @@ export function Hero() {
           <span className="text-primary">Never let a bot join the call.</span>
         </h1>
         <p className="mt-6 max-w-2xl text-balance text-lg text-muted-foreground sm:text-xl">
-          Nexus is a privacy-first meeting notepad for Windows. It listens to
+          Nexus is a privacy-first meeting notepad for Windows and macOS. It
+          listens to
           what your computer hears, transcribes live, and turns your rough
           notes into structured key points — without a bot ever joining the
           meeting and without storing a single second of audio.

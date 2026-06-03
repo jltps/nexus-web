@@ -10,7 +10,8 @@ export function CTA() {
           Bring meeting notes back to your machine.
         </h2>
         <p className="mt-3 text-muted-foreground">
-          Free, native Windows installer. No accounts, no signup, no bots.
+          Free, native installers for Windows and macOS. No accounts, no
+          signup, no bots.
         </p>
         <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
           <Button asChild size="xl">

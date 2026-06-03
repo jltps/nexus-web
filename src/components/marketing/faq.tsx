@@ -21,12 +21,12 @@ const items = [
     a: "No. Nexus runs fully local. You bring your own API keys for any cloud provider you want to use (Anthropic for AI, Deepgram for transcription), or you use offline Whisper and pay nothing. The Nexus app itself is free.",
   },
   {
-    q: "Which Windows versions are supported?",
-    a: "Windows 10 (64-bit) and Windows 11. The app uses Electron's loopback audio capture, which needs Electron 31+; we ship with 33.",
+    q: "Which platforms are supported?",
+    a: "Windows 10 (64-bit) and Windows 11, plus macOS 13 Ventura or later on Apple Silicon (M1–M4). The app uses Electron's loopback audio capture, which needs Electron 31+; we ship with 33.",
   },
   {
-    q: "What about Mac and Linux?",
-    a: "Not yet. The audio-capture path is Windows-specific today. macOS is on the roadmap as a separate project once we tackle native loopback there.",
+    q: "What about Linux?",
+    a: "macOS (Apple Silicon) is here — grab it on the download page. Linux isn't supported yet; the loopback audio-capture path would need native work there.",
   },
   {
     q: "Will my notes sync across devices?",

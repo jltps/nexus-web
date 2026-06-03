@@ -4,7 +4,7 @@ import { Prose } from "@/components/docs/prose";
 export const metadata: Metadata = {
   title: "API keys",
   description:
-    "How Nexus stores your API keys (DPAPI-encrypted in the main process), where to paste them, and how to use OpenAI-compatible providers.",
+    "How Nexus stores your API keys (encrypted via the OS keychain in the main process), where to paste them, and how to use OpenAI-compatible providers.",
 };
 
 export default function Page() {
@@ -18,8 +18,9 @@ export default function Page() {
 
       <h2>Where keys live</h2>
       <p>
-        Keys are encrypted with Windows DPAPI via Electron&rsquo;s{" "}
-        <code>safeStorage</code>, decrypted only inside the main process, and
+        Keys are encrypted via Electron&rsquo;s <code>safeStorage</code> —
+        Windows DPAPI on Windows, the macOS Keychain on Mac — decrypted only
+        inside the main process, and
         never exposed to the renderer (UI) layer. They are never logged and
         never sent to any analytics endpoint.
       </p>

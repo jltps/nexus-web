@@ -26,8 +26,9 @@ const invariants: { num: string; rule: string; explainer: React.ReactNode }[] = 
     rule: "API keys never reach the renderer in plaintext and never get logged.",
     explainer: (
       <p>
-        Keys are encrypted with Windows DPAPI via Electron&rsquo;s{" "}
-        <code>safeStorage</code>. Anthropic and Deepgram calls happen inside
+        Keys are encrypted via Electron&rsquo;s <code>safeStorage</code> —
+        Windows DPAPI on Windows, the Keychain on macOS. Anthropic and Deepgram
+        calls happen inside
         the main process; the UI (the &ldquo;renderer&rdquo; in Electron
         terms) never sees a key. The logger explicitly strips any key-shaped
         token. No analytics or telemetry endpoint ever sees them.

@@ -121,6 +121,41 @@ export function findLatestYmlAsset(
   return release.assets.find((a) => a.name === "latest.yml") ?? null;
 }
 
+/** Human arch label derived from a macOS asset filename. */
+export function macArchLabel(name: string): string {
+  const lower = name.toLowerCase();
+  if (lower.includes("arm64") || lower.includes("aarch64")) return "Apple Silicon";
+  if (lower.includes("x64") || lower.includes("intel") || lower.includes("x86_64"))
+    return "Intel";
+  if (lower.includes("universal")) return "Universal";
+  return "macOS";
+}
+
+export interface MacInstaller {
+  asset: GitHubRelease["assets"][number];
+  archLabel: string;
+}
+
+/** All macOS .dmg installers, each tagged with an arch label. The `$`-anchored
+ *  regex excludes `.dmg.blockmap`. Empty for older Windows-only releases.
+ *  Apple Silicon is sorted first for deterministic SSR output; future Intel /
+ *  Universal builds appear automatically with no further code change. */
+export function findMacInstallerAssets(release: GitHubRelease): MacInstaller[] {
+  const order = ["Apple Silicon", "Universal", "Intel", "macOS"];
+  return release.assets
+    .filter((a) => /\.dmg$/i.test(a.name))
+    .map((a) => ({ asset: a, archLabel: macArchLabel(a.name) }))
+    .sort((x, y) => order.indexOf(x.archLabel) - order.indexOf(y.archLabel));
+}
+
+/** Find the `latest-mac.yml` asset (mirrors findLatestYmlAsset). Unused in
+ *  Phase 1; here so a future mac feed route is a copy-paste away. */
+export function findLatestMacYmlAsset(
+  release: GitHubRelease,
+): GitHubRelease["assets"][number] | null {
+  return release.assets.find((a) => a.name === "latest-mac.yml") ?? null;
+}
+
 /** Download an asset's bytes via the GitHub API (works for both public and
  *  private repos when a token is available). Returns null on any failure
  *  short of throwing — callers degrade gracefully. */

@@ -40,6 +40,10 @@ const now: Item[] = [
     title: "Marketing site + docs (this!)",
     body: "Phase 1 of the web property: landing, download, full user guide, privacy, and a live /api/updates/latest feed for the app.",
   },
+  {
+    title: "macOS (Apple Silicon)",
+    body: "Native build for Apple Silicon Macs (M1–M4), with loopback audio capture working on macOS. Grab the .dmg on the download page.",
+  },
 ];
 
 const next: Item[] = [
@@ -67,8 +71,8 @@ const later: Item[] = [
     body: "Two or more people contributing notes to the same meeting in real time. Builds on accounts + sync.",
   },
   {
-    title: "macOS",
-    body: "Native loopback capture on macOS. Held back on a deliberate Windows-first focus until the desktop side stabilizes.",
+    title: "Intel Mac build",
+    body: "Today's macOS build is Apple Silicon only. An Intel (x64) build may follow if there's demand.",
   },
   {
     title: "Mobile companion",
