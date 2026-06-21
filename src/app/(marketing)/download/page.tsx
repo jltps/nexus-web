@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { DownloadOsHint } from "@/components/marketing/download-os-hint";
+import { ReinstallNotice } from "@/components/marketing/reinstall-notice";
 import {
   findInstallerAsset,
   findMacInstallerAssets,
@@ -155,6 +156,8 @@ export default async function DownloadPage() {
           hasMac={macRows.length > 0}
         />
       </div>
+
+      <ReinstallNotice />
 
       <div className="mt-10 space-y-4">
         <PlatformCard
