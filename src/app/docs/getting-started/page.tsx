@@ -5,7 +5,7 @@ import { Prose } from "@/components/docs/prose";
 export const metadata: Metadata = {
   title: "Getting started",
   description:
-    "Install Nexus, capture your first meeting, and let the AI structure your notes — in under five minutes.",
+    "Install Nexus, capture your first meeting, and let the AI structure your notes, in under five minutes.",
 };
 
 export default function Page() {
@@ -21,39 +21,45 @@ export default function Page() {
       <ol>
         <li>
           Go to the <Link href="/download">Download</Link> page and pick the
-          build for your OS — <em>.exe</em> for Windows, <em>.dmg</em> for macOS
+          build for your OS: <em>.exe</em> for Windows, <em>.dmg</em> for macOS
           (Apple Silicon).
         </li>
         <li>
-          Run the installer. On Windows, SmartScreen may warn the first time —
-          click <em>More info → Run anyway</em>. On macOS, drag Nexus to
-          Applications; if Gatekeeper blocks it, right-click the app and choose{" "}
-          <em>Open</em>. Verify the SHA-512 on the download page if you want to
-          be thorough.
+          Run the installer. On Windows, SmartScreen may warn the first time;
+          click <em>More info → Run anyway</em>. On macOS the build isn&rsquo;t
+          notarized yet, so drag Nexus to Applications, then right-click the app
+          and choose <em>Open</em> the first time to get past Gatekeeper.
         </li>
         <li>Launch Nexus from the Start menu or your Applications folder.</li>
       </ol>
 
       <h2>2. Pick your transcription path</h2>
       <p>
-        Nexus supports two transcription engines. You can switch at any time
-        in <em>Settings → Transcription</em>.
+        Nexus supports three transcription engines. You can switch at any time
+        in <em>Settings → Transcription</em>, and{" "}
+        <Link href="/docs/providers">Transcription providers</Link> covers them
+        in depth.
       </p>
       <ul>
         <li>
-          <strong>Deepgram (cloud)</strong> — fastest, multi-speaker
-          diarization, multilingual. Requires a Deepgram API key.
+          <strong>Gladia (recommended):</strong> live cloud transcription plus a
+          post-call <Link href="/docs/insights">insights</Link> pass (speaking
+          time, entities, sentiment). Requires a Gladia API key.
         </li>
         <li>
-          <strong>Whisper (offline)</strong> — runs entirely on your machine.
-          Slower, no diarization, but zero cloud calls and zero cost.
+          <strong>Deepgram (cloud):</strong> fast, with built-in multi-speaker
+          diarization and multilingual support. Requires a Deepgram API key.
+        </li>
+        <li>
+          <strong>Whisper (offline):</strong> runs entirely on your machine.
+          Slower and without insights, but zero cloud calls and zero cost.
         </li>
       </ul>
       <p>
         New here? Start with Whisper to get a feel for things without any keys.
         See <Link href="/docs/offline-whisper">Offline Whisper</Link> for the
-        details, or <Link href="/docs/api-keys">API keys</Link> if you want
-        Deepgram.
+        details, or <Link href="/docs/api-keys">API keys</Link> when you&rsquo;re
+        ready for Gladia or Deepgram.
       </p>
 
       <h2>3. Add an AI provider (optional)</h2>
@@ -67,6 +73,11 @@ export default function Page() {
       <h2>4. Capture a meeting</h2>
       <ol>
         <li>
+          Set the meeting&rsquo;s language in the live-transcript panel if you
+          know it. A fixed language is more accurate than auto-detect, and the
+          choice is remembered for that meeting.
+        </li>
+        <li>
           Click the big <strong>Record</strong> button. Nexus starts listening
           to your microphone and your computer's audio (whatever's playing,
           whichever app it comes from).
@@ -75,11 +86,16 @@ export default function Page() {
           Type your notes on the right. They're saved continuously.
         </li>
         <li>
-          When the meeting ends, click <strong>Stop</strong>. Nexus
-          enhances your notes — structured key points, decisions, action items
-          — each one linked back to the transcript moment it came from.
+          When the meeting ends, click <strong>Stop</strong>. Nexus enhances
+          your notes into structured key points, decisions, and action items,
+          each one linked back to the transcript moment it came from.
         </li>
       </ol>
+      <p>
+        Recording again in a note that already has a transcript adds a new
+        session instead of overwriting it; enhancement still treats every
+        session as one meeting.
+      </p>
 
       <h2>5. (Optional) Connect your calendar</h2>
       <p>
@@ -92,8 +108,13 @@ export default function Page() {
       <h2>What now?</h2>
       <ul>
         <li>
-          Learn about <Link href="/docs/templates">templates</Link> — to
-          shape the enhancement output (stand-up, interview, sales call, …).
+          Compare the{" "}
+          <Link href="/docs/providers">transcription providers</Link> and turn
+          on <Link href="/docs/insights">insights</Link> with Gladia.
+        </li>
+        <li>
+          Learn about <Link href="/docs/templates">templates</Link> to shape the
+          enhancement output (stand-up, interview, sales call, …).
         </li>
         <li>
           Use <Link href="/docs/chat">meeting chat</Link> to ask questions

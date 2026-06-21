@@ -26,12 +26,12 @@ const invariants: { num: string; rule: string; explainer: React.ReactNode }[] = 
     rule: "API keys never reach the renderer in plaintext and never get logged.",
     explainer: (
       <p>
-        Keys are encrypted via Electron&rsquo;s <code>safeStorage</code> —
-        Windows DPAPI on Windows, the Keychain on macOS. Anthropic and Deepgram
-        calls happen inside
-        the main process; the UI (the &ldquo;renderer&rdquo; in Electron
-        terms) never sees a key. The logger explicitly strips any key-shaped
-        token. No analytics or telemetry endpoint ever sees them.
+        Keys are encrypted via Electron&rsquo;s <code>safeStorage</code>{" "}
+        (Windows DPAPI on Windows, the Keychain on macOS), decrypted only inside
+        the main process. Anthropic, Gladia, and Deepgram calls all happen
+        there; the UI (the &ldquo;renderer&rdquo; in Electron terms) never sees a
+        key. The logger explicitly strips any key-shaped token. No analytics or
+        telemetry endpoint ever sees them.
       </p>
     ),
   },
@@ -41,8 +41,8 @@ const invariants: { num: string; rule: string; explainer: React.ReactNode }[] = 
     explainer: (
       <p>
         Nexus does not join your meeting. It only listens to your operating
-        system&rsquo;s audio — what your speakers are playing and what your
-        microphone is hearing. So it works with any conferencing tool
+        system&rsquo;s audio (what your speakers are playing and what your
+        microphone is hearing), so it works with any conferencing tool
         (Zoom, Teams, Meet, Slack huddles, plain VoIP) and is never
         visible to the other participants.
       </p>
@@ -53,8 +53,8 @@ const invariants: { num: string; rule: string; explainer: React.ReactNode }[] = 
     rule: "The user's notes are sacred.",
     explainer: (
       <p>
-        AI enhancement <em>expands</em> your notes — adding structured key
-        points, decisions, action items — but it never deletes or silently
+        AI enhancement <em>expands</em> your notes, adding structured key
+        points, decisions, and action items, but it never deletes or silently
         rewrites your text. Any AI text you edit becomes user-owned and is
         visually distinct from the rest.
       </p>
@@ -80,9 +80,9 @@ export default function PrivacyPage() {
       <Prose>
         <h1>Privacy</h1>
         <p>
-          Nexus is built around five non-negotiable rules. They&rsquo;re not
-          marketing claims — they&rsquo;re invariants enforced by the
-          codebase. If a feature would violate one, it doesn&rsquo;t ship.
+          Nexus is built around five non-negotiable rules. Each one is enforced
+          by the codebase, not just stated here: if a feature would violate a
+          rule, the build fails and it doesn&rsquo;t ship.
         </p>
         {invariants.map((i) => (
           <section key={i.num} className="rounded-lg border bg-card p-5">
@@ -95,6 +95,22 @@ export default function PrivacyPage() {
             {i.explainer}
           </section>
         ))}
+
+        <h2>Transcription providers and post-call insights</h2>
+        <p>
+          When you pick a cloud transcription provider (Gladia or Deepgram),
+          your audio is streamed to it live for transcription and is never
+          written to disk. With Gladia, the transcript also gets a post-call
+          insights pass (speaker diarization, named entities, sentiment) that
+          runs on the text after the meeting ends. Insights are computed by the
+          provider from the transcript, not from stored audio.
+        </p>
+        <p>
+          The on-device speaker model used for Gladia and Whisper runs entirely
+          in memory. Only the model weights are cached locally; your audio is
+          not. Prefer to keep everything on your machine? Offline Whisper sends
+          nothing to a provider at all.
+        </p>
 
         <h2>What we collect on this website</h2>
         <p>

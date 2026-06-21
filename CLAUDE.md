@@ -80,7 +80,7 @@ without surfacing the reason and the trade-off.
 nexus-web/
 ├─ src/
 │  ├─ app/
-│  │  ├─ (marketing)/         # /, /download, /privacy, /terms, /changelog, /roadmap
+│  │  ├─ (marketing)/         # /, /download, /privacy, /terms, /changelog, /roadmap, /about
 │  │  ├─ docs/                # /docs and /docs/<topic> pages with a shared layout
 │  │  ├─ api/
 │  │  │  ├─ updates/latest/route.ts        # LIVE
@@ -97,7 +97,7 @@ nexus-web/
 │  │  ├─ not-found.tsx, error.tsx
 │  ├─ components/
 │  │  ├─ ui/                  # shadcn copy-ins (button, card, badge, accordion, separator)
-│  │  ├─ marketing/           # Hero, Differentiators, FeatureGrid, PrivacyCallout, FAQ, CTA, CopyButton
+│  │  ├─ marketing/           # Hero, ProductVisual, WhatsNew, Differentiators, FeatureGrid, InsightsShowcase, PrivacyCallout, FAQ, CTA, CopyButton, DownloadOsHint
 │  │  ├─ docs/                # Prose, DocsSidebar, docs-nav (sidebar source of truth)
 │  │  ├─ nav/, footer/, theme-toggle, theme-provider, logo
 │  ├─ lib/

@@ -19,10 +19,9 @@ export function Hero() {
         </h1>
         <p className="mt-6 max-w-2xl text-balance text-lg text-muted-foreground sm:text-xl">
           Nexus is a privacy-first meeting notepad for Windows and macOS. It
-          listens to
-          what your computer hears, transcribes live, and turns your rough
-          notes into structured key points — without a bot ever joining the
-          meeting and without storing a single second of audio.
+          listens to what your computer hears, transcribes live, and turns your
+          rough notes into structured key points. No bot joins the meeting, and
+          not a second of audio is stored.
         </p>
         <div className="mt-10 flex flex-col items-center gap-3 sm:flex-row">
           <Button asChild size="xl">

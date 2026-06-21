@@ -1,25 +1,25 @@
-import { ShieldCheck, MicOff, KeyRound, WifiOff } from "lucide-react";
+import { MicOff, AudioLines, Sparkles, WifiOff } from "lucide-react";
 
 const items = [
   {
     icon: MicOff,
     title: "No bot joins the call",
-    body: "Nexus listens to your machine's audio at the OS level. Nothing announces itself in the meeting. Works on every platform that makes sound.",
+    body: "Nexus listens to your machine's audio at the OS level. Nothing announces itself in the meeting, so it works with Zoom, Teams, Meet, Slack huddles, and plain VoIP alike.",
   },
   {
-    icon: ShieldCheck,
-    title: "No audio is ever stored",
-    body: "Audio is captured, streamed for transcription, and dropped. Only the transcript text and your notes are persisted — and they stay on your device.",
+    icon: AudioLines,
+    title: "Pick your transcription engine",
+    body: "Gladia (recommended) for live transcription plus post-call insights, Deepgram for fast diarized cloud, or Whisper fully offline. Bring your own key, or run local for free.",
   },
   {
-    icon: KeyRound,
-    title: "Bring your own keys",
-    body: "Anthropic, Deepgram, or an OpenAI-compatible provider — your choice. Keys are encrypted with the OS keychain (Windows DPAPI / macOS Keychain) and never leave the main process.",
+    icon: Sparkles,
+    title: "Claude structures your notes",
+    body: "Your rough notes become key points, decisions, and action items, each linked to the transcript. Claude expands what you wrote and never overwrites it.",
   },
   {
     icon: WifiOff,
-    title: "Offline option built in",
-    body: "Prefer fully local? Switch to on-device Whisper transcription. No cloud calls, no usage cost, no API key required.",
+    title: "Offline and on-device",
+    body: "Run Whisper locally and separate speakers with an on-device voice model. No cloud calls, no per-minute cost, no API key, and audio never leaves your machine.",
   },
 ];
 

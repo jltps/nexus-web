@@ -23,24 +23,23 @@ export default function Page() {
       <p>Nexus ships with templates tuned for common meeting types:</p>
       <ul>
         <li>
-          <strong>Stand-up</strong> — surfaces blockers, ownership, and next
+          <strong>Stand-up:</strong> surfaces blockers, ownership, and next
           steps per person.
         </li>
         <li>
-          <strong>Interview</strong> — captures candidate signal, strengths,
+          <strong>Interview:</strong> captures candidate signal, strengths,
           concerns, and follow-up questions.
         </li>
         <li>
-          <strong>Sales / client call</strong> — picks out needs, objections,
+          <strong>Sales / client call:</strong> picks out needs, objections,
           commitments, and next actions.
         </li>
         <li>
-          <strong>One-on-one</strong> — tracks topics raised, decisions, and
+          <strong>One-on-one:</strong> tracks topics raised, decisions, and
           open items per side.
         </li>
         <li>
-          <strong>General meeting</strong> — the default when no template
-          fits.
+          <strong>General meeting:</strong> the default when no template fits.
         </li>
       </ul>
 

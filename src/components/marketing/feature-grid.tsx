@@ -4,7 +4,7 @@ import {
   Calendar,
   FolderTree,
   Languages,
-  Search,
+  BarChart3,
   Command,
   ReceiptText,
   FileText,
@@ -17,7 +17,7 @@ const features = [
   {
     icon: Sparkles,
     title: "AI-enhanced notes",
-    body: "Claude turns your rough notes into structured key points, decisions, and action items — each one source-linked back to the transcript.",
+    body: "Claude turns your rough notes into structured key points, decisions, and action items, each one source-linked back to the transcript.",
   },
   {
     icon: PenLine,
@@ -36,28 +36,28 @@ const features = [
   },
   {
     icon: Languages,
-    title: "Real multilingual support",
-    body: "Auto-detects the language of the call. Enhanced notes are written in the same language — never silently switched to English.",
+    title: "Multilingual, your way",
+    body: "Auto-detect the language, or lock it per meeting for sharper accuracy. Enhanced notes are written in that language, never silently switched to English.",
   },
   {
     icon: Users2,
     title: "Speaker separation",
-    body: "Diarization splits each remote speaker into their own labeled stream. Your voice (\"Me\") is auto-attributed and named.",
+    body: "Diarization splits each remote speaker into a labeled stream. With Gladia or Whisper it runs on an on-device voice model; your voice (\"Me\") is auto-attributed.",
+  },
+  {
+    icon: BarChart3,
+    title: "Post-call insights",
+    body: "With Gladia, every meeting gets a speaking-time split, named entities, and sentiment once you stop. Computed from the transcript; audio is never stored.",
   },
   {
     icon: FolderTree,
-    title: "Folders & tags",
-    body: "Organize meetings the way you actually work — nested folders, free-form tags, and bulk re-tagging.",
-  },
-  {
-    icon: Search,
-    title: "Full-text search",
-    body: "Search across every transcript and note instantly. SQLite FTS keeps it fast even with thousands of meetings.",
+    title: "Organize and find",
+    body: "Nested folders, free-form tags, and instant full-text search across every transcript and note. SQLite keeps it fast across thousands of meetings.",
   },
   {
     icon: FileText,
     title: "Templates that fit you",
-    body: "Built-ins for stand-ups, interviews, client calls. Or write your own — with an \"Optimize with AI\" button.",
+    body: "Built-ins for stand-ups, interviews, client calls. Or write your own, with an \"Optimize with AI\" button.",
   },
   {
     icon: Command,
@@ -67,7 +67,7 @@ const features = [
   {
     icon: ReceiptText,
     title: "Cost & quality control",
-    body: "Per-meeting cost readout. Economy/Quality toggle routes routine tasks to Haiku and the heavy lifting to Sonnet.",
+    body: "Per-meeting cost readout for transcription and AI. An Economy/Quality toggle routes routine work to Haiku and the heavy lifting to Sonnet.",
   },
   {
     icon: PaletteIcon,
@@ -82,7 +82,7 @@ export function FeatureGrid() {
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <div className="mx-auto mb-12 max-w-2xl text-center">
           <h2 className="text-3xl font-semibold tracking-tight sm:text-4xl">
-            Everything you need from a meeting tool —
+            Everything you need from a meeting tool,
             <br className="hidden sm:block" />
             and nothing you don't.
           </h2>

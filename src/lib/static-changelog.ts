@@ -17,6 +17,66 @@ export type StaticRelease = {
 
 export const STATIC_CHANGELOG: StaticRelease[] = [
   {
+    tag: "v0.9.0",
+    date: "2026-06-17",
+    title: "Maintenance",
+    body: [
+      "### Changed",
+      "- Build and packaging maintenance on top of the v0.8 line (Gladia transcription, post-call insights, on-device diarization).",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.8.5",
+    date: "2026-06-15",
+    title: "Speaker diarization for Gladia",
+    body: [
+      "### Speaker separation",
+      "- On-by-default, in-memory diarization engine (WavLM voice embeddings + online clustering) separates remote speakers for Gladia. It runs on the captured audio and is never written to disk.",
+      "- Deepgram stays on its own diarization; \"Me\" stays on the mic-energy heuristic.",
+      "### Model management",
+      "- Settings → Transcription gains a manager for the speaker-embedding model: pre-download it, see its state, or delete it to reclaim disk.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.8.1",
+    date: "2026-05-29",
+    title: "Gladia recommended + richer insights",
+    body: [
+      "### Transcription & onboarding",
+      "- Gladia is now the recommended provider; onboarding offers a Gladia key and auto-selects it.",
+      "- Settings gains a dedicated API Keys tab.",
+      "### Recording",
+      "- Recording into a note that already has a transcript now appends a new session instead of overwriting it.",
+      "### Insights",
+      "- Captures all 5 sentiments and 25 emotions, in a dashboard of speaking time, sentiment, and top entities, with timestamps that jump into the transcript.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.8.0",
+    date: "2026-05-29",
+    title: "Gladia live transcription + post-call insights",
+    body: [
+      "### What's new",
+      "- New Gladia transcription provider alongside Deepgram and offline Whisper. Audio uses the same local pipeline and never touches disk.",
+      "- Post-call Insights: speaker diarization, named-entity recognition, and sentiment, in a dedicated Insights view and inline in the transcript.",
+      "- A continuous ~2.5h session handoff keeps long calls in one transcript; Markdown export and backup bundles carry insights.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.7.0",
+    date: "2026-05-28",
+    title: "In-app auto-update",
+    body: [
+      "### New",
+      "- Auto-update from GitHub Releases: Nexus checks on launch and every 6 hours, downloads in the background, and offers a one-click restart, never during a recording.",
+      "- A Settings → Updates panel and an About dialog.",
+      "### Changed",
+      "- Windows installs are now silent and one-click, like Slack or VS Code.",
+      "### Notes",
+      "- Windows SmartScreen still warns on first install; the installer isn't code-signed yet.",
+    ].join("\n"),
+  },
+  {
     tag: "v0.6.1",
     date: "2026-05-28",
     title: "Auto-update plumbing",

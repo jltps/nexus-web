@@ -4,7 +4,7 @@ import { Prose } from "@/components/docs/prose";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "About Nexus — a privacy-first, bot-free meeting notepad for Windows and macOS, built by José Luís Sousa.",
+    "About Nexus: a privacy-first, bot-free meeting notepad for Windows and macOS, built by José Luís Sousa.",
 };
 
 export default function AboutPage() {
@@ -14,10 +14,9 @@ export default function AboutPage() {
         <h1>About Nexus</h1>
         <p>
           Nexus is a privacy-first meeting notepad for Windows and macOS. It
-          captures
-          what your computer hears, transcribes it live, and turns your rough
-          notes into structured key points — without a bot ever joining the
-          call and without storing a single second of audio.
+          captures what your computer hears, transcribes it live, and turns your
+          rough notes into structured key points. No bot ever joins the call,
+          and not a second of audio is stored.
         </p>
         <p>
           It runs local-first. Cloud features are opt-in, and the few network

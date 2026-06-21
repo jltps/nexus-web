@@ -51,8 +51,15 @@ shadcn copy-ins live in `src/components/ui/`. We only ship what we use:
 
 Marketing-specific components live in `src/components/marketing/`:
 
-- `Hero`, `Differentiators`, `FeatureGrid`, `PrivacyCallout`, `FAQ`, `CTA`,
-  `CopyButton`.
+- `Hero`, `ProductVisual`, `WhatsNew`, `Differentiators`, `FeatureGrid`,
+  `InsightsShowcase`, `PrivacyCallout`, `FAQ`, `CTA`, `CopyButton`,
+  `DownloadOsHint`.
+- `ProductVisual` and `InsightsShowcase` render token-only CSS/SVG
+  placeholders (no fake screenshots); swap for real `/screenshots/*.png`
+  when captures exist.
+- `DownloadOsHint` is a client component and additive only: it renders
+  nothing without JS, for unrecognized platforms, or when the detected OS
+  has no build.
 
 Docs components live in `src/components/docs/`:
 
@@ -105,7 +112,7 @@ download page reqs box. Keep it consistent.
 <Button asChild size="xl">
   <Link href="/download">
     <Download className="mr-2 size-4" />
-    Download for Windows
+    Download
   </Link>
 </Button>
 ```

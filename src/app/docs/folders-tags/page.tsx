@@ -21,28 +21,28 @@ export default function Page() {
       <h2>Folders</h2>
       <ul>
         <li>
-          <strong>Nested</strong> — you can have arbitrarily deep folder
-          trees. Most people stop at two levels (Client → Project).
+          <strong>Nested:</strong> you can have arbitrarily deep folder trees.
+          Most people stop at two levels (Client → Project).
         </li>
         <li>
-          <strong>Drag &amp; drop</strong> — re-organize from the sidebar.
+          <strong>Drag &amp; drop:</strong> re-organize from the sidebar.
         </li>
         <li>
-          <strong>One folder per meeting</strong> — meetings live in exactly
-          one place.
+          <strong>One folder per meeting:</strong> meetings live in exactly one
+          place.
         </li>
       </ul>
 
       <h2>Tags</h2>
       <ul>
         <li>
-          <strong>Free-form</strong> — type a new tag and it&rsquo;s created.
+          <strong>Free-form:</strong> type a new tag and it&rsquo;s created.
         </li>
         <li>
-          <strong>Many per meeting</strong> — stack tags for retrieval.
+          <strong>Many per meeting:</strong> stack tags for retrieval.
         </li>
         <li>
-          <strong>Bulk re-tag</strong> — select multiple meetings in the
+          <strong>Bulk re-tag:</strong> select multiple meetings in the
           sidebar and apply tags in one action.
         </li>
       </ul>

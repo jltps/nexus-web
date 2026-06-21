@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { Prose } from "@/components/docs/prose";
 
@@ -13,7 +14,7 @@ export default function Page() {
       <h1>Offline Whisper</h1>
       <p>
         Whisper runs locally on your computer. Audio never leaves your
-        machine. No API key, no quota, no per-minute cost — and confidential
+        machine. No API key, no quota, no per-minute cost, and confidential
         meetings stay confidential.
       </p>
 
@@ -40,14 +41,16 @@ export default function Page() {
           a couple of seconds on average.
         </li>
         <li>
-          <strong>Diarization.</strong> The local model doesn&rsquo;t split
-          speakers. All remote voices appear as a single labeled stream;
-          you can still rename labels after the fact.
+          <strong>Diarization.</strong> Whisper itself doesn&rsquo;t label
+          speakers, but Nexus separates remote speakers with the same on-device
+          voice model it uses for Gladia (it runs in memory on mono Whisper
+          sessions; quality is still being tuned). Your own voice is recovered
+          from the mic-energy signal, and you can rename labels after the fact.
         </li>
         <li>
           <strong>Multilingual quality.</strong> Whisper is solid in many
-          languages; Deepgram&rsquo;s tuning may still be sharper for some
-          accents/contexts.
+          languages; the cloud providers&rsquo; tuning may still be sharper for
+          some accents and contexts.
         </li>
       </ul>
 
@@ -58,11 +61,13 @@ export default function Page() {
         <li>You don&rsquo;t want a per-minute bill at all.</li>
       </ul>
 
-      <h2>Switching back to Deepgram</h2>
+      <h2>Switching to a cloud engine</h2>
       <p>
-        Anytime. <em>Settings → Transcription → Deepgram</em>. New meetings
-        from that point onward use Deepgram; existing transcripts are
-        untouched.
+        Anytime. In <em>Settings → Transcription</em>, pick Gladia (recommended,
+        with post-call insights) or Deepgram. New meetings from that point
+        onward use the cloud engine; existing transcripts are untouched. See{" "}
+        <Link href="/docs/providers">Transcription providers</Link> for the
+        comparison.
       </p>
     </Prose>
   );

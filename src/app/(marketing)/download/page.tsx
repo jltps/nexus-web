@@ -4,6 +4,7 @@ import type { LucideIcon } from "lucide-react";
 import type { Metadata } from "next";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { DownloadOsHint } from "@/components/marketing/download-os-hint";
 import {
   findInstallerAsset,
   findMacInstallerAssets,
@@ -50,6 +51,7 @@ function PlatformCard({
   releasedISO,
   emptyTitle,
   emptySubtitle,
+  anchorId,
 }: {
   platform: string;
   icon: LucideIcon;
@@ -57,9 +59,13 @@ function PlatformCard({
   releasedISO: string | null;
   emptyTitle: string;
   emptySubtitle: string;
+  anchorId?: string;
 }) {
   return (
-    <div className="rounded-2xl border bg-card p-6 shadow-xs sm:p-8">
+    <div
+      id={anchorId}
+      className="scroll-mt-24 rounded-2xl border bg-card p-6 shadow-xs sm:p-8"
+    >
       <div className="mb-4 flex items-center gap-2">
         <Icon className="size-5 text-primary" />
         <h2 className="text-base font-semibold">{platform}</h2>
@@ -144,6 +150,10 @@ export default async function DownloadPage() {
             ? "Free. Native installers for Windows and macOS. No account, no signup, no bots."
             : "The first stable build is on the way. Check back soon."}
         </p>
+        <DownloadOsHint
+          hasWindows={windowsRows.length > 0}
+          hasMac={macRows.length > 0}
+        />
       </div>
 
       <div className="mt-10 space-y-4">
@@ -154,6 +164,7 @@ export default async function DownloadPage() {
           releasedISO={releasedISO}
           emptyTitle="Nexus-Setup.exe"
           emptySubtitle="Native NSIS installer · Windows 10/11 (64-bit)"
+          anchorId="windows"
         />
         <PlatformCard
           platform="macOS"
@@ -162,7 +173,16 @@ export default async function DownloadPage() {
           releasedISO={releasedISO}
           emptyTitle="Nexus.dmg"
           emptySubtitle="Apple Silicon · macOS 13 Ventura or later"
+          anchorId="macos"
         />
+        <p className="px-1 text-xs text-muted-foreground">
+          The macOS build isn&rsquo;t notarized yet. On first launch, right-click
+          Nexus and choose Open (see{" "}
+          <Link href="/docs/getting-started" className="text-primary hover:underline">
+            Getting started
+          </Link>
+          ).
+        </p>
       </div>
 
       <div className="mt-10 grid gap-4 sm:grid-cols-2">

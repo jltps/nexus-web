@@ -14,11 +14,12 @@ Release artifacts: `github.com/jltps/MeetingTranscriber` (configurable via
 
 - **Marketing landing** (`/`) — what Nexus is, why, who it's for.
 - **Download page** (`/download`) — fetches the latest stable release from
-  GitHub Releases, surfaces the .exe + SHA-512 checksum + system requirements.
+  GitHub Releases, surfaces the Windows `.exe` and macOS `.dmg` installers +
+  system requirements.
 - **User guide** (`/docs`) — getting started, API keys, calendar setup,
-  templates, chat, folders+tags, offline Whisper, cost & usage, keyboard
-  shortcuts, troubleshooting.
-- **Privacy / Terms / Changelog / Roadmap** under `(marketing)/`.
+  templates, chat, transcription providers, insights, offline Whisper,
+  folders+tags, cost & usage, keyboard shortcuts, troubleshooting.
+- **Privacy / Terms / Changelog / Roadmap / About** under `(marketing)/`.
 - **Live `/api/updates/latest` and `/api/updates/latest.yml`** —
   electron-updater feed proxied from GitHub Releases with a 5-minute server
   cache.

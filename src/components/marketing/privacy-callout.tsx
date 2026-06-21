@@ -17,7 +17,7 @@ const invariants: { title: string; body: string }[] = [
   },
   {
     title: "Your notes are sacred",
-    body: "AI enhancement expands your notes — never deletes or silently rewrites them. Anything you edit becomes yours.",
+    body: "AI enhancement expands your notes. It never deletes or silently rewrites them, and anything you edit becomes yours.",
   },
   {
     title: "The renderer is sandboxed",
@@ -37,8 +37,8 @@ export function PrivacyCallout() {
             Five privacy promises, baked into the code.
           </h2>
           <p className="mt-4 text-muted-foreground">
-            These aren't marketing claims — they're invariants the codebase
-            enforces. Break one and the build breaks too.
+            These are not marketing claims. They are invariants the codebase
+            enforces: break one and the build breaks too.
           </p>
         </div>
         <ol className="grid gap-4 sm:grid-cols-2">

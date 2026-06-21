@@ -17,12 +17,24 @@ interface Item {
 }
 const now: Item[] = [
   {
-    title: "Diarization + 'Me' attribution",
-    body: "Multiple remote speakers are now split into separate labeled streams. Your voice is auto-identified using a mic-energy heuristic.",
+    title: "Gladia transcription + post-call insights",
+    body: "Live cloud transcription with a post-call pass for speaker diarization, named entities, and sentiment. Gladia is now the recommended provider.",
+  },
+  {
+    title: "Speaker separation everywhere",
+    body: "Deepgram diarizes remote speakers directly; Gladia and Whisper get an on-device voice model that runs in memory. Your voice ('Me') is recovered from a mic-energy signal.",
+  },
+  {
+    title: "Per-meeting language",
+    body: "Pick a meeting's language up front for sharper accuracy, or leave it on auto-detect. The enhanced notes follow that language.",
+  },
+  {
+    title: "In-app auto-update",
+    body: "Nexus checks GitHub on launch and every six hours, downloads in the background, and never interrupts a recording.",
   },
   {
     title: "Mono transcription mode",
-    body: "Default capture is a single mono channel — roughly halves Deepgram's per-channel bill with no quality loss for most calls.",
+    body: "Default capture is a single mono channel, which roughly halves Deepgram's per-channel bill with no quality loss for most calls.",
   },
   {
     title: "Templates with 'Optimize with AI'",
@@ -33,27 +45,23 @@ const now: Item[] = [
     body: "Query across many meetings, scoped by folder or tag. Answers cite the transcript moments they come from.",
   },
   {
-    title: "OpenAI-compatible provider",
-    body: "Use OpenAI, OpenRouter, Ollama, vLLM, LiteLLM — anything that speaks the OpenAI API. Anthropic stays default and recommended.",
-  },
-  {
-    title: "Marketing site + docs (this!)",
-    body: "Phase 1 of the web property: landing, download, full user guide, privacy, and a live /api/updates/latest feed for the app.",
+    title: "OpenAI-compatible AI provider",
+    body: "Use OpenAI, OpenRouter, Ollama, vLLM, or LiteLLM for the AI layer. Anthropic stays the default and recommended.",
   },
   {
     title: "macOS (Apple Silicon)",
     body: "Native build for Apple Silicon Macs (M1–M4), with loopback audio capture working on macOS. Grab the .dmg on the download page.",
   },
+  {
+    title: "Marketing site + docs (this!)",
+    body: "Phase 1 of the web property: landing, download, full user guide, privacy, and a live /api/updates/latest feed for the app.",
+  },
 ];
 
 const next: Item[] = [
   {
-    title: "Auto-update in the app",
-    body: "Wiring electron-updater against the live /api/updates/latest endpoint. One-click upgrade from inside Nexus.",
-  },
-  {
     title: "Accounts & opt-in cloud sync",
-    body: "Email magic-link or Google/Microsoft OAuth. Last-write-wins sync of meetings, notes, transcripts, templates, folders, tags. Audio stays out. Keys stay out. Local-first stays default.",
+    body: "Email magic-link or Google/Microsoft OAuth. Last-write-wins sync of meetings, notes, transcripts, templates, folders, and tags. Audio stays out. Keys stay out. Local-first stays default.",
   },
   {
     title: "Read-only sharing",
@@ -68,7 +76,7 @@ const next: Item[] = [
 const later: Item[] = [
   {
     title: "Collaborative meetings",
-    body: "Two or more people contributing notes to the same meeting in real time. Builds on accounts + sync.",
+    body: "Two or more people contributing notes to the same meeting in real time. Builds on accounts and sync.",
   },
   {
     title: "Intel Mac build",
@@ -76,11 +84,11 @@ const later: Item[] = [
   },
   {
     title: "Mobile companion",
-    body: "Read-only on phones first — review notes, ask questions across meetings, see upcoming agenda.",
+    body: "Read-only on phones first: review notes, ask questions across meetings, and see the upcoming agenda.",
   },
   {
     title: "Transcript quality eval loop",
-    body: "Continuous regression harness for diarization + multilingual transcription.",
+    body: "Continuous regression harness for diarization and multilingual transcription.",
   },
 ];
 

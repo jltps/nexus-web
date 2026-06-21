@@ -24,14 +24,14 @@ export default function Page() {
           play out of.
         </li>
         <li>
-          Restart Nexus after changing the default playback device — the OS
+          Restart Nexus after changing the default playback device; the OS
           loopback handles tie to whatever was current at launch.
         </li>
       </ul>
 
       <h2>The mic indicator stays on after stopping</h2>
       <p>
-        This is a bug — please report it. As a workaround, fully quit and
+        This is a bug; please report it. As a workaround, fully quit and
         relaunch Nexus. The stop path closes the AudioContext and every
         MediaStreamTrack; if you ever see the OS mic light remain on after
         Stop, treat it as critical.
@@ -40,18 +40,19 @@ export default function Page() {
       <h2>Transcription quality is poor</h2>
       <ul>
         <li>
-          Check the speaker volume — Nexus picks up exactly what your
-          computer is playing. Very low volumes degrade transcription.
+          Check the speaker volume; Nexus picks up exactly what your computer is
+          playing, and very low volumes degrade transcription.
         </li>
         <li>
           For multi-person Deepgram calls, make sure diarization is on
           (Settings → Transcription).
         </li>
         <li>
-          If many remote speakers are merging into one, run a short test call
-          with a different microphone arrangement — the mic-energy heuristic
-          works best with a clear separation between &ldquo;Me&rdquo; and
-          the speakers.
+          For Gladia or Whisper, remote speakers are split by an on-device voice
+          model. If everyone is merging into one &ldquo;Speaker&rdquo;,
+          pre-download that model in <em>Settings → Transcription</em> so it runs
+          from the first call. Your own voice (&ldquo;Me&rdquo;) is recovered
+          from a mic-energy signal, so a clear volume separation still helps.
         </li>
       </ul>
 
@@ -74,7 +75,7 @@ export default function Page() {
       <p>
         Logs live in <code>%APPDATA%/com.scribe.app/logs/</code> on Windows, or{" "}
         <code>~/Library/Logs/Nexus/</code> on macOS. They are scrubbed of audio
-        bytes and API keys before write. You can share them when filing a bug —
+        bytes and API keys before write. You can share them when filing a bug;
         they&rsquo;re plain text.
       </p>
 

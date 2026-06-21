@@ -6,8 +6,8 @@ Three jobs:
 
 1. **Promote** Nexus and explain what it is, who it's for, how it works,
    and what it costs (nothing).
-2. **Distribute** the Windows installer (link to GitHub Releases; surface
-   version, checksum, system requirements, recent versions).
+2. **Distribute** the Windows and macOS installers (link to GitHub Releases;
+   surface version, system requirements, recent versions).
 3. **Host one live cloud endpoint** that the desktop app consumes:
    `GET /api/updates/latest(.yml)` for `electron-updater`. Everything else
    on the API surface is a typed stub that returns 501 — the contract is
@@ -19,7 +19,7 @@ Three jobs:
 - No analytics, telemetry, or trackers.
 - No payments.
 - No custom domain.
-- No search across docs (10 pages — sidebar + Ctrl+F suffices).
+- No search across docs (12 pages — sidebar + Ctrl+F suffices).
 - No internationalization of the site (the *app* supports many languages;
   the site is English-only Phase 1).
 
@@ -33,12 +33,13 @@ Three jobs:
 
 | Route | Owner | Content |
 |---|---|---|
-| `/` | marketing | Hero → Differentiators → Features → Privacy → FAQ → CTA |
-| `/download` | marketing | Latest version from GitHub + SHA-512 + system reqs + recent releases |
-| `/docs` | docs | Overview + sidebar to 10 topic pages |
-| `/docs/<topic>` | docs | Getting started, API keys, calendar, templates, chat, folders+tags, offline Whisper, cost & usage, keyboard shortcuts, troubleshooting |
+| `/` | marketing | Hero → What's-new → Differentiators → Features → Insights → Privacy → FAQ → CTA |
+| `/download` | marketing | Latest version from GitHub (Windows + macOS) + system reqs + recent releases |
+| `/docs` | docs | Overview + sidebar to 12 topic pages |
+| `/docs/<topic>` | docs | Getting started, API keys, calendar, templates, chat, transcription providers, insights, offline Whisper, folders+tags, cost & usage, keyboard shortcuts, troubleshooting |
 | `/privacy` | marketing | The five §1 invariants in user-facing language |
 | `/terms` | marketing | Short Terms of Use |
+| `/about` | marketing | Who built Nexus + contact |
 | `/changelog` | marketing | Recent releases (live from GitHub) |
 | `/roadmap` | marketing | Now / Next / Later |
 | `/api/updates/latest` | API | electron-updater JSON, 5-min cache |
@@ -52,7 +53,7 @@ Three jobs:
 | Lives in Phase 1 | Moves to Phase 2 |
 |---|---|
 | Marketing pages | Auth (magic link, Google, Microsoft) |
-| Docs (10 pages) | Cloud sync (delta pull/push, tombstones) |
+| Docs (12 pages) | Cloud sync (delta pull/push, tombstones) |
 | Download (link to GH Releases) | Cloud backup (`BackupBundle` upload) |
 | `/api/updates/*` live | Read-only meeting sharing |
 | Zod stubs for everything else | Telemetry (opt-in) |

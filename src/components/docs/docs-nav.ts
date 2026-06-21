@@ -17,6 +17,8 @@ export const docsSections: DocSection[] = [
       { href: "/docs/calendar-setup", label: "Calendar setup" },
       { href: "/docs/templates", label: "Templates" },
       { href: "/docs/chat", label: "Meeting chat" },
+      { href: "/docs/providers", label: "Transcription providers" },
+      { href: "/docs/insights", label: "Insights" },
       { href: "/docs/offline-whisper", label: "Offline Whisper" },
     ],
   },

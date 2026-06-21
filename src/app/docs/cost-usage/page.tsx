@@ -13,10 +13,11 @@ export default function Page() {
       <h1>Cost &amp; usage</h1>
       <p>
         Every meeting tracks two cost lines: <strong>transcription</strong>{" "}
-        (Deepgram minutes, free for offline Whisper) and{" "}
+        (Gladia or Deepgram minutes, free for offline Whisper) and{" "}
         <strong>AI</strong> (Anthropic input + output tokens, or your
         OpenAI-compatible equivalent). Nexus shows both per meeting and in
-        aggregate in <em>Settings → Usage &amp; cost</em>.
+        aggregate in <em>Settings → Usage &amp; cost</em>, and the readout is
+        provider-aware.
       </p>
 
       <h2>Cost per meeting</h2>
@@ -25,7 +26,7 @@ export default function Page() {
         a breakdown:
       </p>
       <ul>
-        <li>Transcription: minutes × billed channels.</li>
+        <li>Transcription: minutes of audio (Deepgram also factors billed channels).</li>
         <li>AI: input tokens × model + output tokens × model.</li>
       </ul>
 
@@ -33,10 +34,16 @@ export default function Page() {
       <ul>
         <li>
           <strong>Mono mode (default).</strong> Nexus downmixes microphone and
-          system audio into a single channel before transcription. This{" "}
-          ~halves Deepgram&rsquo;s per-channel bill. &ldquo;Me&rdquo; is
-          recovered via a mic-energy heuristic so speaker separation still
-          works.
+          system audio into a single channel before sending it to a cloud
+          provider. For Deepgram this roughly halves the per-channel bill; for
+          Gladia it keeps the cost-saver path. &ldquo;Me&rdquo; is recovered via
+          a mic-energy heuristic and remote speakers are split by the on-device
+          model, so separation still works.
+        </li>
+        <li>
+          <strong>Gladia vs Deepgram.</strong> Both bill per minute of audio.
+          Gladia adds the post-call insights pass; if you don&rsquo;t need
+          insights, Deepgram is a leaner cloud option.
         </li>
         <li>
           <strong>Whisper for sensitive calls.</strong> Free, local, no cost
@@ -44,7 +51,7 @@ export default function Page() {
         </li>
       </ul>
 
-      <h2>Cutting AI cost — Economy mode</h2>
+      <h2>Cutting AI cost with Economy mode</h2>
       <p>
         In <em>Settings → AI</em> you&rsquo;ll find a Quality / Economy
         toggle.

@@ -39,8 +39,8 @@ export default function TermsPage() {
           </li>
           <li>
             <strong>Provider terms.</strong> Nexus uses third-party providers
-            (Anthropic, Deepgram, Google, Microsoft) under your own accounts
-            and keys. You are responsible for complying with those
+            (Anthropic, Gladia, Deepgram, Google, Microsoft) under your own
+            accounts and keys. You are responsible for complying with those
             providers&rsquo; terms and for the costs incurred.
           </li>
           <li>
@@ -81,7 +81,7 @@ export default function TermsPage() {
         <p>
           When these terms change materially, we&rsquo;ll bump the version
           here and link the previous version. The current version is{" "}
-          <strong>Phase 1 / v0.1</strong>, last updated 2026-05-28.
+          <strong>Phase 1 / v0.1</strong>, last updated 2026-06-21.
         </p>
       </Prose>
     </section>

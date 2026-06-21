@@ -1,3 +1,4 @@
+import Link from "next/link";
 import type { Metadata } from "next";
 import { Prose } from "@/components/docs/prose";
 
@@ -18,11 +19,10 @@ export default function Page() {
 
       <h2>Where keys live</h2>
       <p>
-        Keys are encrypted via Electron&rsquo;s <code>safeStorage</code> —
-        Windows DPAPI on Windows, the macOS Keychain on Mac — decrypted only
-        inside the main process, and
-        never exposed to the renderer (UI) layer. They are never logged and
-        never sent to any analytics endpoint.
+        Keys are encrypted via Electron&rsquo;s <code>safeStorage</code>{" "}
+        (Windows DPAPI on Windows, the macOS Keychain on Mac), decrypted only
+        inside the main process, and never exposed to the renderer (UI) layer.
+        They are never logged and never sent to any analytics endpoint.
       </p>
 
       <h2>Anthropic (recommended for AI)</h2>
@@ -49,6 +49,31 @@ export default function Page() {
         flip to Economy mode (Haiku for everything) in the same screen.
       </p>
 
+      <h2>Gladia (recommended for transcription)</h2>
+      <ol>
+        <li>
+          Create a key at{" "}
+          <a
+            href="https://app.gladia.io/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            app.gladia.io
+          </a>
+          .
+        </li>
+        <li>
+          Open <em>Settings → API Keys</em> in Nexus, paste the Gladia key, and
+          save. Onboarding offers a Gladia key and selects it automatically.
+        </li>
+      </ol>
+      <p>
+        Gladia gives you live transcription plus a post-call{" "}
+        <Link href="/docs/insights">insights</Link> pass. See{" "}
+        <Link href="/docs/providers">Transcription providers</Link> to compare
+        all three engines.
+      </p>
+
       <h2>Deepgram (cloud transcription)</h2>
       <ol>
         <li>
@@ -63,8 +88,8 @@ export default function Page() {
           .
         </li>
         <li>
-          Open <em>Settings → Transcription</em>, select Deepgram, paste the
-          key.
+          Open <em>Settings → API Keys</em>, paste the Deepgram key, then
+          select Deepgram in <em>Settings → Transcription</em>.
         </li>
       </ol>
 
@@ -95,9 +120,10 @@ export default function Page() {
 
       <h2>Revoking and rotating</h2>
       <p>
-        Open <em>Settings → AI / Transcription</em>, clear the key, and paste
-        a new one. The encrypted copy is overwritten immediately. Nexus
-        will not re-use the old key for any further calls.
+        Open the relevant tab (<em>Settings → API Keys</em> for a transcription
+        provider, <em>Settings → AI</em> for your model provider), clear the
+        key, and paste a new one. The encrypted copy is overwritten immediately.
+        Nexus will not re-use the old key for any further calls.
       </p>
     </Prose>
   );
