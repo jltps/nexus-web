@@ -91,7 +91,7 @@ violations; never silently break.
 ## Open decisions
 
 - **Which GitHub repo hosts releases**: documented in `API_CONTRACT.md`.
-  Defaults to `jltps/MeetingTranscriber`; change via `NEXUS_RELEASES_REPO`.
+  Defaults to `jltps/nexus-releases`; change via `NEXUS_RELEASES_REPO`.
 - **Beta channel**: deferred. The current endpoint skips drafts and
   pre-releases. A `?channel=beta` query parameter is a Phase-2 addition.
 - **Repointing the desktop app**: a small follow-up commit in the Electron
