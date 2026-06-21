@@ -10,8 +10,12 @@
 
 import { z } from "zod";
 
+// The app source repo `jltps/MeetingTranscriber` is PRIVATE; compiled releases
+// (installer + latest.yml + blockmap) live in the dedicated PUBLIC repo
+// `jltps/nexus-releases`, which serves anonymous downloads + the auto-update
+// feed. Override with NEXUS_RELEASES_REPO if the release host ever moves again.
 const RELEASES_REPO =
-  process.env.NEXUS_RELEASES_REPO ?? "jltps/MeetingTranscriber";
+  process.env.NEXUS_RELEASES_REPO ?? "jltps/nexus-releases";
 
 const GitHubAssetSchema = z.object({
   id: z.number(),
