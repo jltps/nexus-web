@@ -27,24 +27,75 @@ function formatDate(iso: string | null): string {
   }
 }
 
-/** Render markdown headings/lists from release notes as a tiny safe subset.
- *  No remote MDX, no client-side parser — we ship strings only. */
+/** Inline markdown: **bold**, `code`, and [text](url). Built into React nodes
+ *  directly — no `innerHTML`, consistent with the "ship strings only" posture. */
+function renderInline(text: string, keyPrefix: string): React.ReactNode[] {
+  const nodes: React.ReactNode[] = [];
+  const re = /(`[^`]+`)|(\*\*[^*]+\*\*)|(\[[^\]]+\]\([^)]+\))/g;
+  let last = 0;
+  let n = 0;
+  for (let m = re.exec(text); m !== null; m = re.exec(text)) {
+    const tok = m[0];
+    if (tok === undefined) break;
+    if (m.index > last) nodes.push(text.slice(last, m.index));
+    const key = `${keyPrefix}-${n++}`;
+    if (tok.startsWith("`")) {
+      nodes.push(<code key={key}>{tok.slice(1, -1)}</code>);
+    } else if (tok.startsWith("**")) {
+      nodes.push(<strong key={key}>{tok.slice(2, -2)}</strong>);
+    } else {
+      const link = /^\[([^\]]+)\]\(([^)]+)\)$/.exec(tok);
+      const label = link?.[1] ?? tok;
+      const href = link?.[2] ?? "#";
+      nodes.push(
+        <a key={key} href={href} target="_blank" rel="noopener noreferrer">
+          {label}
+        </a>,
+      );
+    }
+    last = m.index + tok.length;
+  }
+  if (last < text.length) nodes.push(text.slice(last));
+  return nodes;
+}
+
+/** Render release-note markdown as a tiny safe subset: headings, bullet lists,
+ *  and inline **bold** / `code` / links. No remote MDX, no client-side parser,
+ *  no `innerHTML` — we build React nodes from the string. */
 function renderNotes(md: string): React.ReactNode {
   const lines = md.split(/\r?\n/);
-  return (
-    <>
-      {lines.map((line, i) => {
-        const trim = line.trim();
-        if (!trim) return <br key={i} />;
-        if (trim.startsWith("### ")) return <h4 key={i}>{trim.slice(4)}</h4>;
-        if (trim.startsWith("## ")) return <h3 key={i}>{trim.slice(3)}</h3>;
-        if (trim.startsWith("# ")) return <h3 key={i}>{trim.slice(2)}</h3>;
-        if (trim.startsWith("- ") || trim.startsWith("* "))
-          return <li key={i}>{trim.slice(2)}</li>;
-        return <p key={i}>{trim}</p>;
-      })}
-    </>
-  );
+  const blocks: React.ReactNode[] = [];
+  let listItems: React.ReactNode[] = [];
+
+  const flushList = (key: string) => {
+    if (listItems.length > 0) {
+      blocks.push(<ul key={key}>{listItems}</ul>);
+      listItems = [];
+    }
+  };
+
+  lines.forEach((line, i) => {
+    const trim = line.trim();
+    if (trim.startsWith("- ") || trim.startsWith("* ")) {
+      listItems.push(<li key={i}>{renderInline(trim.slice(2), `li${i}`)}</li>);
+      return;
+    }
+    flushList(`ul${i}`);
+    if (!trim) {
+      blocks.push(<br key={i} />);
+    } else if (trim.startsWith("### ")) {
+      blocks.push(<h4 key={i}>{renderInline(trim.slice(4), `h${i}`)}</h4>);
+    } else if (trim.startsWith("## ")) {
+      blocks.push(<h3 key={i}>{renderInline(trim.slice(3), `h${i}`)}</h3>);
+    } else if (trim.startsWith("# ")) {
+      blocks.push(<h3 key={i}>{renderInline(trim.slice(2), `h${i}`)}</h3>);
+    } else {
+      blocks.push(<p key={i}>{renderInline(trim, `p${i}`)}</p>);
+    }
+  });
+  flushList("ul-end");
+
+  return <>{blocks}</>;
 }
 
 type Entry = {
