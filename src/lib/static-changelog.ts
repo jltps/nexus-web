@@ -1,11 +1,14 @@
 /**
- * Static fallback for the changelog when GitHub Releases hasn't been
- * populated yet (the repo is still private / unpublished). Mirrors what
- * actually shipped in the desktop app at scribe/ — keep entries in sync
- * with scribe/package.json + the roadmap/V0x docs.
+ * Curated release history for the changelog page.
  *
- * Once the GitHub Releases feed has entries, it takes precedence and this
- * list is no longer rendered (see app/(marketing)/changelog/page.tsx).
+ * The public release host (jltps/nexus-releases) intentionally carries only
+ * recent builds, so the changelog renders the live feed and then appends these
+ * entries for every earlier version the feed doesn't include (deduped by
+ * version, live wins — see app/(marketing)/changelog/page.tsx). This keeps the
+ * full history on the site without bloating the release repo.
+ *
+ * Notes mirror what shipped in the desktop app. Keep newest-first; the page
+ * sorts by `date`, so use a full ISO timestamp where same-day ordering matters.
  */
 
 export type StaticRelease = {
@@ -17,29 +20,86 @@ export type StaticRelease = {
 
 export const STATIC_CHANGELOG: StaticRelease[] = [
   {
-    tag: "v0.9.0",
-    date: "2026-06-17",
-    title: "Maintenance",
+    tag: "v0.9.1",
+    date: "2026-06-21T12:26:21Z",
+    title: "Reliable auto-updates",
     body: [
-      "### Changed",
-      "- Build and packaging maintenance on top of the v0.8 line (Gladia transcription, post-call insights, on-device diarization).",
+      "- Improves how Nexus delivers updates so future versions install automatically.",
+      "- Updating from a version before 0.9.1 is a one-time manual step: download and run the latest installer once from the Download page (your meetings, notes, and settings are kept), and Nexus keeps itself updated from then on.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.9.0",
+    date: "2026-06-17T15:31:38Z",
+    title: "Startup resilience",
+    body: [
+      "- The splash screen can never trap the app on launch.",
+      "- Added renderer startup diagnostics to make any launch issue easier to pin down.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.8.81",
+    date: "2026-06-17T14:49:06Z",
+    title: "Diarization over-segmentation fix",
+    body: "- Tunes the local diarization clustering so a single speaker is no longer split into several.",
+  },
+  {
+    tag: "v0.8.8",
+    date: "2026-06-17T10:39:54Z",
+    title: "Diarization packaging fix + auto-update",
+    body: [
+      "- **Local diarization now loads in the packaged app** (it previously ran only in development), with added logging and diagnostics.",
+      "- **Install-on-quit** so an update applies cleanly when you close Nexus.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.8.7",
+    date: "2026-06-16T12:47:59Z",
+    title: "Decoupled diarization",
+    body: "- Local speaker diarization is decoupled from the live transcript, so it no longer interferes with live captioning.",
+  },
+  {
+    tag: "v0.8.6",
+    date: "2026-06-15T16:57:25Z",
+    title: "Gladia speaker diarization fix",
+    body: [
+      "- Gladia and Whisper now always capture **mono**, so the on-device diarization engine runs regardless of a leftover 'Best quality' setting.",
+      "- Recalibrated the speaker-clustering thresholds so remote speakers split into Speaker 1 / 2 / 3 instead of collapsing into one.",
     ].join("\n"),
   },
   {
     tag: "v0.8.5",
-    date: "2026-06-15",
+    date: "2026-06-15T13:33:44Z",
     title: "Speaker diarization for Gladia",
     body: [
       "### Speaker separation",
       "- On-by-default, in-memory diarization engine (WavLM voice embeddings + online clustering) separates remote speakers for Gladia. It runs on the captured audio and is never written to disk.",
-      "- Deepgram stays on its own diarization; \"Me\" stays on the mic-energy heuristic.",
+      "- Deepgram stays on its own diarization; 'Me' stays on the mic-energy heuristic.",
       "### Model management",
       "- Settings → Transcription gains a manager for the speaker-embedding model: pre-download it, see its state, or delete it to reclaim disk.",
     ].join("\n"),
   },
   {
+    tag: "v0.8.3",
+    date: "2026-06-03T11:28:59Z",
+    title: "First macOS build (test)",
+    body: [
+      "- First macOS build (Apple Silicon), as an **unsigned** test artifact. macOS Gatekeeper blocks it until you bypass it manually (right-click, then Open).",
+      "- No user-facing Windows changes since 0.8.2.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.8.2",
+    date: "2026-06-03T10:16:37Z",
+    title: "Gladia diarization quality + per-meeting language",
+    body: [
+      "- **Per-word 'Me' attribution** in mono mode, so your voice coalesces into one clean stream while remote speakers stay separated.",
+      "- A **language selector** in the live-transcript panel: set the meeting's language up front (more accurate than auto-detect); it is remembered per meeting.",
+    ].join("\n"),
+  },
+  {
     tag: "v0.8.1",
-    date: "2026-05-29",
+    date: "2026-05-29T14:53:33Z",
     title: "Gladia recommended + richer insights",
     body: [
       "### Transcription & onboarding",
@@ -53,7 +113,7 @@ export const STATIC_CHANGELOG: StaticRelease[] = [
   },
   {
     tag: "v0.8.0",
-    date: "2026-05-29",
+    date: "2026-05-29T12:51:26Z",
     title: "Gladia live transcription + post-call insights",
     body: [
       "### What's new",
@@ -63,8 +123,58 @@ export const STATIC_CHANGELOG: StaticRelease[] = [
     ].join("\n"),
   },
   {
+    tag: "v0.7.6",
+    date: "2026-05-29T10:19:37Z",
+    title: "Mic-priority 'Me' attribution",
+    body: "- Refines 'Me' attribution with a bleed-aware, mic-priority heuristic, so your own voice stays one clean stream even when it bleeds into the system audio.",
+  },
+  {
+    tag: "v0.7.5",
+    date: "2026-05-29T09:23:23Z",
+    title: "Diarization & transcript fidelity",
+    body: [
+      "- **Paragraph-aware transcripts.** Words carry paragraph data, and grouping merges fragmented remote speech into cleaner paragraphs.",
+      "- **Filler words** are captured and shown subtly.",
+      "- **Stereo capture** is available as an opt-in 'Best quality' mode.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.7.4",
+    date: "2026-05-28T17:43:41Z",
+    title: "UI polish",
+    body: "- Refinements across the sidebar, Settings, the AI button, the About dialog, and the data-wipe flow.",
+  },
+  {
+    tag: "v0.7.3",
+    date: "2026-05-28T15:55:25Z",
+    title: "Transcription quality + sturdier capture",
+    body: [
+      "- **Bleed-aware 'Me' attribution** for cleaner separation of your voice from remote speakers.",
+      "- **Bullet-proof Windows capture** to make recording more reliable.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.7.2",
+    date: "2026-05-28T15:13:14Z",
+    title: "Experience tweaks",
+    body: [
+      "- **Tags in the sidebar** with a create-tag button.",
+      "- **Splash screen** on app launch.",
+      "- **Sticky note header** unifying the note-window controls.",
+      "- **Cross-meeting chat** moved into the sidebar.",
+      "- **Agenda rows** show the date alongside the time.",
+      "- **Meeting cards** gain compact/extended density, drag-and-drop reordering, and move-to-folder.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.7.1",
+    date: "2026-05-28T12:48:41Z",
+    title: "Production calendar OAuth",
+    body: "- **Calendar OAuth** now uses production Google and Microsoft credentials, so connecting a calendar works without any developer setup.",
+  },
+  {
     tag: "v0.7.0",
-    date: "2026-05-28",
+    date: "2026-05-28T12:19:51Z",
     title: "In-app auto-update",
     body: [
       "### New",
@@ -72,63 +182,60 @@ export const STATIC_CHANGELOG: StaticRelease[] = [
       "- A Settings → Updates panel and an About dialog.",
       "### Changed",
       "- Windows installs are now silent and one-click, like Slack or VS Code.",
-      "### Notes",
-      "- Windows SmartScreen still warns on first install; the installer isn't code-signed yet.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.6.2",
+    date: "2026-05-28T11:23:13Z",
+    title: "Per-word 'Me' attribution",
+    body: [
+      "- 'Me' attribution now decides **per word** against the mic-vs-system energy timeline, so consecutive Me-words coalesce into one stream even when Deepgram tagged them as different speakers.",
+      "- Remote speakers still split by Deepgram exactly as before. Mono finals only.",
     ].join("\n"),
   },
   {
     tag: "v0.6.1",
-    date: "2026-05-28",
+    date: "2026-05-28T10:10:25Z",
     title: "Auto-update plumbing",
     body: [
-      "### Fixed",
-      "- Wire the generic auto-update feed and `latest.yaml` manifest so installed clients see new releases.",
-      "- Track release manifests in the build so the update feed serves consistent metadata.",
+      "- Generic auto-update feed and `latest.yaml` manifest so installed clients can see new releases.",
+      "- Release manifests are tracked in the build so the update feed serves consistent metadata.",
     ].join("\n"),
   },
   {
     tag: "v0.6.0",
-    date: "2026-05-27",
-    title: "V06 — Templates & AI capabilities",
+    date: "2026-05-28T09:45:32Z",
+    title: "Templates & AI capabilities",
     body: [
       "### Templates",
-      "- Split the template model: built-in JSON-contract scaffolding is always-on, `instructions` is now a guidance slot.",
-      "- Reseeded the six built-in templates from the user-facing guidance — no more leaking LLM mechanics text.",
-      "- Bigger scrollable template editor with a starter example and canned snippet buttons.",
-      "- New \"Optimize with AI\" action to rewrite a draft template's guidance.",
+      "- Built-in JSON-contract scaffolding is always-on; `instructions` is now a guidance slot.",
+      "- Reseeded the six built-in templates from the user-facing guidance.",
+      "- Bigger template editor with a starter example and an 'Optimize with AI' action.",
       "### Summaries",
-      "- One enhancement call now returns both **key-points** and **extended** notes; the UI toggles between them.",
+      "- One enhancement call returns both **key-points** and **extended** notes; the UI toggles between them.",
       "### AI cost & quality",
-      "- Task→model routing: Haiku for cheap tasks, Sonnet for enhancement.",
-      "- Prompt caching on the enhance path.",
-      "- Economy / Quality toggle in Settings.",
-      "- Anti-AI-tell style directive (no em-dashes, fewer stock phrases); shorter AI-generated titles.",
+      "- Task-to-model routing (Haiku for cheap tasks, Sonnet for enhancement), prompt caching, and an Economy / Quality toggle.",
       "### Multi-provider",
-      "- Generic OpenAI-compatible provider behind the `Enhancer` / chat seam; Anthropic stays the default.",
-      "### UI polish",
-      "- Removed the per-meeting cost chip from the header.",
-      "- Enlarged the Settings dialog.",
+      "- Generic OpenAI-compatible provider behind the enhancer / chat seam; Anthropic stays the default.",
     ].join("\n"),
   },
   {
     tag: "v0.5.0",
     date: "2026-05-27",
-    title: "V05 — Transcription quality & cost",
+    title: "Transcription quality & cost",
     body: [
       "### Quality",
-      "- Speaker diarization enabled on Deepgram so remote speakers no longer merge into one.",
-      "- Single-language meetings now use the dedicated language model — fewer foreign-word leaks.",
+      "- Speaker diarization on Deepgram so remote speakers no longer merge into one.",
+      "- Single-language meetings use the dedicated language model, with fewer foreign-word leaks.",
       "### Cost",
       "- Single-channel mono capture cuts the per-channel Deepgram bill roughly in half.",
-      "- \"Me\" is derived from the local mic-energy signal instead of a second billed channel.",
-      "### Fixed",
-      "- Nova-3 streaming no longer rejects requests that included `detect_language`.",
+      "- 'Me' is derived from the local mic-energy signal instead of a second billed channel.",
     ].join("\n"),
   },
   {
     tag: "v0.4.0",
     date: "2026-05-27",
-    title: "V04 — UI/UX overhaul + rebrand to Nexus",
+    title: "UI/UX overhaul + rebrand to Nexus",
     body: [
       "### Rebrand",
       "- Renamed from Scribe to **Nexus** end-to-end.",
@@ -136,30 +243,24 @@ export const STATIC_CHANGELOG: StaticRelease[] = [
       "- Adopted shadcn/ui + lucide-react with a fresh component system and design tokens.",
       "- New app shell, sidebar, and window-state handling.",
       "### Organization & navigation",
-      "- Note organization with folders + tags.",
-      "- Command palette for fast navigation across meetings and actions.",
+      "- Note organization with folders + tags, plus a command palette for fast navigation.",
       "### Onboarding & a11y",
-      "- New onboarding flow and empty states throughout the app.",
-      "- Accessibility pass on focus order, contrast, and keyboard reachability.",
-      "### Fixed",
-      "- Enhancer no longer degrades the whole note on a single bad block; notes scrolling is correct again.",
+      "- New onboarding flow, empty states, and an accessibility pass on focus order, contrast, and keyboard reach.",
     ].join("\n"),
   },
   {
     tag: "v0.3.0",
     date: "2026-05-27",
-    title: "V03 — Reliability, data, calendar, chat",
+    title: "Reliability, data, calendar, chat",
     body: [
       "### Reliability",
       "- Transcription resilience: virtual transcript, reconnection handling, and per-meeting usage & cost.",
       "### Speakers",
       "- Rename speakers, merge by same name, and reassign segments.",
       "### Data",
-      "- Per-meeting export and full backup/restore.",
-      "- Local Whisper transcription via `@xenova/transformers` for offline use.",
+      "- Per-meeting export, full backup/restore, and local Whisper transcription for offline use.",
       "### Calendar",
-      "- Google Calendar integration with auto-start; Microsoft Calendar support.",
-      "- Switched to Google `freebusy` so the app no longer needs `events.readonly`.",
+      "- Google Calendar integration with auto-start, plus Microsoft Calendar support.",
       "### Chat",
       "- Cross-meeting chat intelligence over the meeting corpus.",
     ].join("\n"),

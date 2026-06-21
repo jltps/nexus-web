@@ -117,18 +117,27 @@ function effectiveBody(tag: string, body: string): string {
 export default async function ChangelogPage() {
   const live = await getRecentReleasesIncludingPrereleases(20);
 
-  const entries: Entry[] =
-    live.length > 0
-      ? live.map((r) => ({
-          tag: r.tag_name,
-          publishedAt: r.published_at,
-          body: effectiveBody(r.tag_name, r.body ?? ""),
-        }))
-      : STATIC_CHANGELOG.map((r) => ({
-          tag: r.tag,
-          publishedAt: r.date,
-          body: r.body,
-        }));
+  // The public release host carries only recent builds, so render the live
+  // feed and append the curated history for every earlier version it doesn't
+  // include. Dedupe by normalized version (live wins) and sort newest-first.
+  const liveVersions = new Set(live.map((r) => tagToVersion(r.tag_name)));
+  const liveEntries: Entry[] = live.map((r) => ({
+    tag: r.tag_name,
+    publishedAt: r.published_at,
+    body: effectiveBody(r.tag_name, r.body ?? ""),
+  }));
+  const historyEntries: Entry[] = STATIC_CHANGELOG.filter(
+    (r) => !liveVersions.has(tagToVersion(r.tag)),
+  ).map((r) => ({
+    tag: r.tag,
+    publishedAt: r.date,
+    // Lead with the title as a heading so history entries read like the live
+    // releases, whose bodies open with their own "## …" title line.
+    body: `## ${r.title}\n\n${r.body}`,
+  }));
+  const entries: Entry[] = [...liveEntries, ...historyEntries].sort((a, b) =>
+    (b.publishedAt ?? "").localeCompare(a.publishedAt ?? ""),
+  );
 
   return (
     <section className="mx-auto max-w-3xl px-4 py-16 sm:px-6">
