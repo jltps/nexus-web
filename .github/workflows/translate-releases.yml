@@ -25,14 +25,14 @@ jobs:
   translate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # No `version:` here — it conflicts with `packageManager: pnpm@9.x` in
-      # package.json (pnpm/action-setup@v4 errors on the duplicate). The action
+      # package.json (pnpm/action-setup@v6 errors on the duplicate). The action
       # reads the version from package.json.
-      - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v6
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: pnpm

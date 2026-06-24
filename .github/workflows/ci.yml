@@ -15,18 +15,18 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       # pnpm must be set up BEFORE actions/setup-node: setup-node's
       # `cache: "pnpm"` runs `pnpm` to locate the store and fails if pnpm
       # isn't on PATH yet. No `version:` — it conflicts with
       # `packageManager: pnpm@9.x` in package.json (action errors on the duplicate).
       - name: Setup pnpm
-        uses: pnpm/action-setup@v4
+        uses: pnpm/action-setup@v6
         with:
           run_install: false
 
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@v6
         with:
           node-version: 20
           cache: "pnpm"
@@ -53,10 +53,10 @@ jobs:
     needs: build
     timeout-minutes: 5
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Restore lychee cache
-        uses: actions/cache@v4
+        uses: actions/cache@v6
         with:
           path: .lycheecache
           key: lychee-${{ github.sha }}
