@@ -105,11 +105,18 @@ type Entry = {
   body: string;
 };
 
+/** True when the text has an actual word or number — not just a stray "-"/"—"
+ *  placeholder or whitespace a release may have been published with. */
+function hasRealContent(s: string): boolean {
+  return /[\p{L}\p{N}]/u.test(s);
+}
+
 /** Resolve an effective body for a live release: prefer the GitHub release
  *  body, fall back to a matching STATIC_CHANGELOG entry, then to a neutral
- *  placeholder. */
+ *  placeholder. A body that is only punctuation/whitespace (e.g. a "-"
+ *  placeholder) counts as empty, so the curated fallback wins. */
 function effectiveBody(tag: string, body: string): string {
-  if (body.trim()) return body;
+  if (hasRealContent(body)) return body;
   const fallback = STATIC_CHANGELOG.find((s) => s.tag === tag);
   if (fallback) return fallback.body;
   return "Release notes not provided.";

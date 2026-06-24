@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { getLatestRelease } from "@/lib/github-releases";
 import {
+  englishBody,
   englishTitle,
   extractHighlight,
   FALLBACK_HIGHLIGHT,
@@ -17,8 +18,19 @@ async function resolveHighlight(): Promise<string> {
   try {
     const latest = await getLatestRelease();
     if (!latest) return FALLBACK_HIGHLIGHT;
-    const title = englishTitle(latest.tag_name, latest.name);
-    return extractHighlight(title) ?? FALLBACK_HIGHLIGHT;
+    // Prefer the headline in the release title (`vX.Y.Z — <headline>`). If the
+    // title is just a bare version, fall back to the first heading line of the
+    // body (releases whose notes open with their own `## … — <headline>`).
+    const fromTitle = extractHighlight(englishTitle(latest.tag_name, latest.name));
+    if (fromTitle) return fromTitle;
+    const firstLine = englishBody(latest.tag_name, latest.body)
+      .split(/\r?\n/)
+      .map((l) => l.trim())
+      .find(Boolean);
+    const fromBody = firstLine
+      ? extractHighlight(firstLine.replace(/^#+\s*/, ""))
+      : null;
+    return fromBody ?? FALLBACK_HIGHLIGHT;
   } catch {
     return FALLBACK_HIGHLIGHT;
   }
