@@ -2,9 +2,9 @@ name: ci
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
-    branches: [main]
+    branches: [master]
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -22,10 +22,11 @@ jobs:
           node-version: 20
           cache: "pnpm"
 
+      # No `version:` — it conflicts with `packageManager: pnpm@9.x` in
+      # package.json (pnpm/action-setup@v4 errors on the duplicate).
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 9
           run_install: false
 
       - name: Install dependencies
