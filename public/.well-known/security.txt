@@ -1,5 +1,5 @@
 Contact: mailto:jlts2010@gmail.com
 Expires: 2027-05-28T00:00:00.000Z
 Preferred-Languages: en
-Canonical: https://nexus-web.vercel.app/.well-known/security.txt
-Policy: https://nexus-web.vercel.app/privacy
+Canonical: https://nexus-web-joses-projects-64c7bb4d.vercel.app/.well-known/security.txt
+Policy: https://nexus-web-joses-projects-64c7bb4d.vercel.app/privacy

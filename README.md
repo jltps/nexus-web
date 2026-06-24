@@ -70,7 +70,10 @@ cache window). Optional:
 - `NEXUS_RELEASES_REPO` — which `owner/repo` hosts the release artifacts
   (defaults to `jltps/nexus-releases`).
 - `NEXT_PUBLIC_SITE_URL` — full URL of the deployment (used for metadata
-  and the sitemap). Defaults to `https://nexus-web.vercel.app`.
+  and the sitemap). Defaults to the team URL
+  `https://nexus-web-joses-projects-64c7bb4d.vercel.app` (the bare
+  `nexus-web.vercel.app` subdomain is an unrelated app — see the note at the
+  top of this file).
 
 ## Deployment
 

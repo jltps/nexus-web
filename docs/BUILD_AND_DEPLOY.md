@@ -41,7 +41,7 @@ dev). Never commit `.env*` with real values.
 |---|---|---|
 | `NEXUS_RELEASES_REPO` | `jltps/nexus-releases` | `owner/repo` of release artifacts |
 | `GITHUB_TOKEN` | (unset) | Optional — raises GitHub API rate limit from 60 to 5000 req/h |
-| `NEXT_PUBLIC_SITE_URL` | `https://nexus-web.vercel.app` | Used for metadata / sitemap |
+| `NEXT_PUBLIC_SITE_URL` | `https://nexus-web-joses-projects-64c7bb4d.vercel.app` | Used for metadata / sitemap. The team URL; **not** the unrelated `nexus-web.vercel.app` subdomain |
 | `ANTHROPIC_API_KEY` | (unset) | Used **only** by `translate:releases` (in CI) to translate release notes to English. Never committed; lives as a GitHub Actions secret. Absent → the script no-ops gracefully. |
 | `TRANSLATE_MODEL` | (Claude Haiku) | Optional — overrides the model `translate:releases` calls |
 
@@ -53,9 +53,10 @@ dev). Never commit `.env*` with real values.
 3. Accept the defaults (Vercel detects Next.js automatically).
 4. Set environment variables under **Project Settings → Environment
    Variables** if you want to override the defaults.
-5. The first deployment lands on `https://<project>-<hash>.vercel.app`. Set
-   the production alias to `nexus-web.vercel.app` (free) or hook a custom
-   domain later.
+5. The first deployment lands on the team URL
+   `https://nexus-web-joses-projects-64c7bb4d.vercel.app`. **Do not** try to
+   use the bare `nexus-web.vercel.app` subdomain — it belongs to an unrelated
+   app. Hook a custom domain when ready (see below).
 
 PR previews are automatic; each PR gets its own URL.
 
@@ -140,7 +141,9 @@ fetches its feed from here. In the desktop repo, edit `scribe/app-update.yml`:
 
 ```yaml
 provider: generic
-url: https://nexus-web.vercel.app/api/updates/
+url: https://nexus-web-joses-projects-64c7bb4d.vercel.app/api/updates/
 ```
 
-That's the only change needed on the app side for Phase 1.
+That's the only change needed on the app side for Phase 1. (Use the team URL
+above — **not** `nexus-web.vercel.app`, which is an unrelated app — or a custom
+domain once one is configured.)

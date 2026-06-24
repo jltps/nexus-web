@@ -68,7 +68,8 @@ export async function GET() {
     // too). electron-updater will resolve `path` relative to the feed URL,
     // landing at the same endpoint.
     const siteUrl =
-      process.env.NEXT_PUBLIC_SITE_URL ?? "https://nexus-web.vercel.app";
+      process.env.NEXT_PUBLIC_SITE_URL ??
+      "https://nexus-web-joses-projects-64c7bb4d.vercel.app";
     const proxyUrl = `${siteUrl}/api/updates/${encodeURIComponent(installer.name)}`;
     const payload = UpdatesLatestResponseSchema.parse({
       version: tagToVersion(release.tag_name),

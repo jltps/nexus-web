@@ -40,7 +40,7 @@ export async function phase2Stub(
     phase: 2,
     message: `${options.name} is part of Phase 2 (accounts & sync) and not yet implemented. See API_CONTRACT.md.`,
     docs: options.docsAnchor
-      ? `https://nexus-web.vercel.app/docs#${options.docsAnchor}`
+      ? `https://nexus-web-joses-projects-64c7bb4d.vercel.app/docs#${options.docsAnchor}`
       : undefined,
   };
   return NextResponse.json(payload, { status: 501 });

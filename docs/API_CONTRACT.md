@@ -91,8 +91,12 @@ In the desktop repo, set `scribe/app-update.yml`:
 
 ```yaml
 provider: generic
-url: https://nexus-web.vercel.app/api/updates/
+url: https://nexus-web-joses-projects-64c7bb4d.vercel.app/api/updates/
 ```
+
+> The host is the project's Vercel team URL. The bare `nexus-web.vercel.app`
+> subdomain belongs to an **unrelated** app and must **not** be used for the
+> update feed. Swap this for a custom domain once one is configured.
 
 electron-updater will fetch `latest.yml` from this base URL and then
 download the installer asset by its `path`.
@@ -110,7 +114,7 @@ Every stub validates its request body against a Zod schema in
   "error": "not_implemented",
   "phase": 2,
   "message": "<name> is part of Phase 2 (accounts & sync) and not yet implemented.",
-  "docs": "https://nexus-web.vercel.app/docs#<anchor>"
+  "docs": "https://nexus-web-joses-projects-64c7bb4d.vercel.app/docs#<anchor>"
 }
 ```
 

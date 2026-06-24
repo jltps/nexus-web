@@ -13,9 +13,10 @@ export default function TermsPage() {
       <Prose>
         <h1>Terms of Use</h1>
         <p>
-          These terms cover this website (<code>nexus-web.vercel.app</code>)
-          and the Nexus desktop installer you download from it. They are
-          intentionally short.
+          These terms cover this website (
+          <code>nexus-web-joses-projects-64c7bb4d.vercel.app</code>) and the
+          Nexus desktop installer you download from it. They are intentionally
+          short.
         </p>
 
         <h2>The software</h2>
