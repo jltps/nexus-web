@@ -2,18 +2,18 @@ name: lighthouse
 
 on:
   pull_request:
-    branches: [main]
+    branches: [master]
 
 jobs:
   lhci:
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v7
 
       - name: Wait for Vercel preview
         id: vercel
-        uses: patrickedqvist/wait-for-vercel-preview@v1.3.2
+        uses: patrickedqvist/wait-for-vercel-preview@v1.3.3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           max_timeout: 600
