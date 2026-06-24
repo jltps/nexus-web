@@ -17,17 +17,19 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-          cache: "pnpm"
-
-      # No `version:` — it conflicts with `packageManager: pnpm@9.x` in
-      # package.json (pnpm/action-setup@v4 errors on the duplicate).
+      # pnpm must be set up BEFORE actions/setup-node: setup-node's
+      # `cache: "pnpm"` runs `pnpm` to locate the store and fails if pnpm
+      # isn't on PATH yet. No `version:` — it conflicts with
+      # `packageManager: pnpm@9.x` in package.json (action errors on the duplicate).
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
           run_install: false
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: "pnpm"
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
