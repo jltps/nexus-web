@@ -19,6 +19,28 @@ export type StaticRelease = {
 };
 
 export const STATIC_CHANGELOG: StaticRelease[] = [
+  // These recent releases were published with an EMPTY GitHub body (the release
+  // pipeline didn't write notes). They live here so effectiveBody() surfaces the
+  // notes on the changelog until the pipeline backfills the GitHub releases
+  // themselves; once a release carries its own body, that body wins. (newest first)
+  {
+    tag: "v0.11.3",
+    date: "2026-06-24T21:32:27Z",
+    title: "Embedded window controls",
+    body: "- **Embedded window controls.** Window controls now live in a shared canvas header, for a cleaner, more consistent layout across views.",
+  },
+  {
+    tag: "v0.11.2",
+    date: "2026-06-24T20:26:07Z",
+    title: "Title-bar window controls",
+    body: "- **Title-bar window controls.** Moved the window controls (minimize / maximize / close) into a dedicated top-right title-bar strip.",
+  },
+  {
+    tag: "v0.11.1",
+    date: "2026-06-24T20:01:00Z",
+    title: "Shell cleanup",
+    body: "- **Shell cleanup.** Removed the top navigation bar; window controls and notes access now live in the side rail.",
+  },
   {
     tag: "v0.9.1",
     date: "2026-06-21T12:26:21Z",
