@@ -1,0 +1,58 @@
+name: Translate release notes
+
+# Populates src/lib/release-translations.json with English versions of the
+# GitHub release notes so the changelog + homepage highlight always render in
+# English. Build/CI-time only — no model is called at request time.
+# See docs/adr/0006-build-time-release-translation.md.
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours
+  workflow_dispatch: {}
+  repository_dispatch:
+    # The releases repo can POST a dispatch with this type on publish to refresh
+    # the cache immediately (optional; the schedule covers it otherwise).
+    types: [release-published]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: translate-releases
+  cancel-in-progress: false
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Translate new/changed releases
+        run: pnpm translate:releases
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          NEXUS_RELEASES_REPO: jltps/nexus-releases
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit updated translation cache
+        run: |
+          if [ -n "$(git status --porcelain src/lib/release-translations.json)" ]; then
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add src/lib/release-translations.json
+            git commit -m "chore(changelog): refresh release translation cache"
+            git push
+          else
+            echo "No translation changes."
+          fi

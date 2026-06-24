@@ -1,14 +1,18 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="256" height="256" role="img" aria-label="Nexus">
   <defs>
     <linearGradient id="nexus-grad" x1="0" y1="0" x2="256" y2="256" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#10b981"/>
-      <stop offset="1" stop-color="#0f766e"/>
+      <stop offset="0" stop-color="#5b3df0"/>
+      <stop offset="1" stop-color="#22d3ee"/>
     </linearGradient>
   </defs>
   <rect x="0" y="0" width="256" height="256" rx="56" ry="56" fill="url(#nexus-grad)"/>
+  <!-- "Orbit node" nexus mark: a central node, a tilted elliptical orbit ring, and a
+       satellite riding the ring (mirrors build/make-icons.mjs: center 128,128 · ring
+       rx=80 ry=44 tilt -25° stroke 10 · nodes 22/15 · satellite on the ring at θ=-50°). -->
+  <ellipse cx="128" cy="128" rx="80" ry="44" transform="rotate(-25 128 128)"
+           fill="none" stroke="#ffffff" stroke-width="10"/>
   <g fill="#ffffff">
-    <rect x="70" y="64" width="28" height="128"/>
-    <rect x="158" y="64" width="28" height="128"/>
-    <polygon points="70,64 98,64 186,192 158,192"/>
+    <circle cx="128" cy="128" r="22"/>
+    <circle cx="160.36" cy="75.72" r="15"/>
   </g>
 </svg>

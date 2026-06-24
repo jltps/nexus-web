@@ -1,7 +1,11 @@
 import { cn } from "@/lib/utils";
 
-/** Inline Nexus mark. Inline (not an <img>) so it inherits color contexts and
- *  ships zero extra requests. Wordmark optional. */
+/** Inline Nexus "orbit-node" mark (a central node, a tilted orbit ring, and a
+ *  satellite on the ring). Inline SVG — not an <img> — so it ships zero extra
+ *  requests and scales crisply. The gradient is fixed (the recognition cue), so
+ *  the mark does not invert with theme. Wordmark optional. Geometry mirrors the
+ *  app's logo.svg / make-icons.mjs and src/lib/brand-mark.ts — keep in sync.
+ *  See docs/adr/0003-orbit-node-mark.md. */
 export function Logo({
   className,
   withWordmark = false,
@@ -30,8 +34,8 @@ export function Logo({
             y2="256"
             gradientUnits="userSpaceOnUse"
           >
-            <stop offset="0" stopColor="#10b981" />
-            <stop offset="1" stopColor="#0f766e" />
+            <stop offset="0" stopColor="#5b3df0" />
+            <stop offset="1" stopColor="#22d3ee" />
           </linearGradient>
         </defs>
         <rect
@@ -43,10 +47,19 @@ export function Logo({
           ry="56"
           fill="url(#nexus-mark-grad)"
         />
+        <ellipse
+          cx="128"
+          cy="128"
+          rx="80"
+          ry="44"
+          transform="rotate(-25 128 128)"
+          fill="none"
+          stroke="#ffffff"
+          strokeWidth="10"
+        />
         <g fill="#ffffff">
-          <rect x="70" y="64" width="28" height="128" />
-          <rect x="158" y="64" width="28" height="128" />
-          <polygon points="70,64 98,64 186,192 158,192" />
+          <circle cx="128" cy="128" r="22" />
+          <circle cx="160.36" cy="75.72" r="15" />
         </g>
       </svg>
       {withWordmark ? (

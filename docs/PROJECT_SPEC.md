@@ -40,7 +40,7 @@ Three jobs:
 | `/privacy` | marketing | The five §1 invariants in user-facing language |
 | `/terms` | marketing | Short Terms of Use |
 | `/about` | marketing | Who built Nexus + contact |
-| `/changelog` | marketing | Recent releases (live from GitHub) |
+| `/changelog` | marketing | Recent releases (live from GitHub, shown in English via a build-time translation cache) + static history |
 | `/roadmap` | marketing | Now / Next / Later |
 | `/api/updates/latest` | API | electron-updater JSON, 5-min cache |
 | `/api/updates/latest.yml` | API | electron-updater YAML, 5-min cache |
@@ -68,7 +68,8 @@ violations; never silently break.
 
 - No third-party JavaScript. Site must function with JS disabled (theme
   toggle and FAQ accordion are allowed exceptions that degrade).
-- No web fonts. System font stack only.
+- No third-party / remote fonts. Self-hosted, same-origin fonts are
+  allowed (the site self-hosts Geist + Geist Mono via `next/font/local`).
 - No remote `next/image` sources.
 - No tracking cookies, no cookie banner.
 - `BackupBundle` mirror schema must not contain `api_keys` or

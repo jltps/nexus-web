@@ -1,12 +1,31 @@
 import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
+import { getLatestRelease } from "@/lib/github-releases";
+import {
+  englishTitle,
+  extractHighlight,
+  FALLBACK_HIGHLIGHT,
+} from "@/lib/release-content";
 
-/** Slim, static announcement band. Curated copy that tracks the current app,
- *  with no network dependency, so it can never fail the homepage render and
- *  never desyncs a live version number from the curated highlight. Fully
- *  static markup, works with JavaScript disabled. Update the highlight when a
- *  release ships a new headline feature. */
-export function WhatsNew() {
+/** Slim announcement band. Reads the latest release and shows its English
+ *  headline (the text after the em-dash in a `vX.Y.Z — <headline>` title),
+ *  falling back to a static string if there is no release, no headline, or the
+ *  fetch fails — so it can never break the homepage render. Server-rendered via
+ *  the same 5-min ISR fetch the download/changelog pages use; works with
+ *  JavaScript disabled. See docs/adr/0005-automatic-release-surfacing.md. */
+async function resolveHighlight(): Promise<string> {
+  try {
+    const latest = await getLatestRelease();
+    if (!latest) return FALLBACK_HIGHLIGHT;
+    const title = englishTitle(latest.tag_name, latest.name);
+    return extractHighlight(title) ?? FALLBACK_HIGHLIGHT;
+  } catch {
+    return FALLBACK_HIGHLIGHT;
+  }
+}
+
+export async function WhatsNew() {
+  const highlight = await resolveHighlight();
   return (
     <div className="mx-auto max-w-5xl px-4 pt-8 sm:px-6">
       <Link
@@ -15,9 +34,7 @@ export function WhatsNew() {
       >
         <Sparkles className="size-3.5 text-primary" />
         <span className="font-medium">New in Nexus</span>
-        <span className="text-muted-foreground">
-          Gladia transcription and post-call insights
-        </span>
+        <span className="text-muted-foreground">{highlight}</span>
         <ArrowRight className="size-3.5 text-muted-foreground transition-transform group-hover:translate-x-0.5" />
       </Link>
     </div>

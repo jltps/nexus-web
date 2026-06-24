@@ -25,8 +25,9 @@ Open <http://localhost:3000>. Hot reload works for both pages and CSS.
 | `pnpm start` | Run the production build locally |
 | `pnpm typecheck` | `tsc --noEmit` — strict, blocks on errors |
 | `pnpm lint` | ESLint |
-| `pnpm check:invariants` | Greps for analytics/webfonts/hardcoded keys |
+| `pnpm check:invariants` | Greps for analytics/remote-fonts/hardcoded keys |
 | `pnpm format` | Prettier |
+| `pnpm translate:releases` | Refresh the English release-notes translation cache (CI/build-time only) |
 
 The pre-commit gate is all four of: `typecheck`, `lint`, `build`,
 `check:invariants`. CI runs the same gate plus a link-checker.
@@ -41,6 +42,8 @@ dev). Never commit `.env*` with real values.
 | `NEXUS_RELEASES_REPO` | `jltps/nexus-releases` | `owner/repo` of release artifacts |
 | `GITHUB_TOKEN` | (unset) | Optional — raises GitHub API rate limit from 60 to 5000 req/h |
 | `NEXT_PUBLIC_SITE_URL` | `https://nexus-web.vercel.app` | Used for metadata / sitemap |
+| `ANTHROPIC_API_KEY` | (unset) | Used **only** by `translate:releases` (in CI) to translate release notes to English. Never committed; lives as a GitHub Actions secret. Absent → the script no-ops gracefully. |
+| `TRANSLATE_MODEL` | (Claude Haiku) | Optional — overrides the model `translate:releases` calls |
 
 ## Deploying to Vercel
 
@@ -78,6 +81,32 @@ Phase 1 stays on the free `*.vercel.app` subdomain. When ready:
 
 Lighthouse CI runs as a separate workflow against the Vercel preview URL on
 PRs and asserts all four categories ≥ 95.
+
+## Release-notes translation
+
+Release content (changelog bodies + the homepage "New in Nexus" highlight) is
+always shown in **English**, regardless of the language the upstream GitHub
+release was authored in. Translation happens at build/CI time, never at
+request time:
+
+- `scripts/translate-releases.ts` reads the releases from
+  `NEXUS_RELEASES_REPO` (`jltps/nexus-releases`), translates any new or
+  changed entries via the Anthropic Messages API (plain `fetch`, no new
+  dependency), and writes the committed cache at
+  `src/lib/release-translations.json`. Content already in English is kept
+  verbatim. `src/lib/release-content.ts` holds the read helpers consumed by
+  the changelog page and the homepage band.
+- `.github/workflows/translate-releases.yml` runs the script on a schedule
+  (cron every 6h), on `workflow_dispatch`, and on a `repository_dispatch`
+  of type `release-published` (the releases repo can POST this on publish to
+  refresh immediately). It commits the updated cache back to the repo.
+- The workflow needs the **`ANTHROPIC_API_KEY`** secret
+  (**Settings → Secrets and variables → Actions**). It is *never* committed
+  and is read only inside this workflow. Without it the script logs a notice
+  and exits 0, leaving any untranslated entries as-is — the site still
+  builds and renders.
+- See `docs/adr/0005-automatic-release-surfacing.md` and
+  `docs/adr/0006-build-time-release-translation.md` for the rationale.
 
 ## Caching strategy
 

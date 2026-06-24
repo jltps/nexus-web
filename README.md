@@ -1,7 +1,7 @@
 # nexus-web
 
 The marketing site, user guide, and Phase-1 cloud-function host for **Nexus** —
-a bot-free, device-audio meeting notepad for Windows.
+a bot-free, device-audio meeting notepad for Windows and macOS.
 
 Live: deployed on Vercel under the team domain (e.g. `https://nexus-web-joses-projects-64c7bb4d.vercel.app`). NOTE: the bare `nexus-web.vercel.app` subdomain belongs to an unrelated app, so it is not this site — a custom domain is recommended.
 Desktop app source: separate repository (`scribe/` inside `GranolaClone`).
@@ -20,6 +20,10 @@ Release artifacts: `github.com/jltps/nexus-releases` (configurable via
   templates, chat, transcription providers, insights, offline Whisper,
   folders+tags, cost & usage, keyboard shortcuts, troubleshooting.
 - **Privacy / Terms / Changelog / Roadmap / About** under `(marketing)/`.
+  Release content (the changelog body and the homepage "New in Nexus"
+  highlight) is pulled live from the latest GitHub Release and normalized to
+  English via a build/CI translation cache (`src/lib/release-translations.json`,
+  populated by `scripts/translate-releases.ts`).
 - **Live `/api/updates/latest` and `/api/updates/latest.yml`** —
   electron-updater feed proxied from GitHub Releases with a 5-minute server
   cache.
@@ -49,8 +53,9 @@ Other scripts:
 pnpm typecheck         # tsc --noEmit
 pnpm lint              # eslint
 pnpm build             # next build
-pnpm check:invariants  # CI guard: no analytics/webfonts/hardcoded keys
+pnpm check:invariants  # CI guard: no analytics/remote fonts/hardcoded keys
 pnpm format            # prettier
+pnpm translate:releases # refresh release-translation cache (needs ANTHROPIC_API_KEY)
 ```
 
 All four (typecheck, lint, build, check:invariants) must pass before commit.
@@ -73,6 +78,12 @@ Connect this repo to Vercel; defaults Just Work. Production branch is `main`.
 Pull requests get a preview URL automatically. CI (GitHub Actions) runs
 typecheck, lint, build, and the invariants script on every push.
 
+A separate scheduled workflow (`.github/workflows/translate-releases.yml`)
+runs `pnpm translate:releases` every 6 hours (plus on demand) to refresh the
+English release-translation cache and commits it back. It reads the
+`ANTHROPIC_API_KEY` GitHub Actions secret (never committed); without it the
+script no-ops gracefully.
+
 See `docs/BUILD_AND_DEPLOY.md` for details.
 
 ## Documentation
@@ -83,6 +94,9 @@ See `docs/BUILD_AND_DEPLOY.md` for details.
 - [`docs/BUILD_AND_DEPLOY.md`](./docs/BUILD_AND_DEPLOY.md) — local + Vercel.
 - [`docs/API_CONTRACT.md`](./docs/API_CONTRACT.md) — live + Phase-2 endpoints.
 - [`docs/DESIGN_SYSTEM.md`](./docs/DESIGN_SYSTEM.md) — tokens, components.
+- [`docs/GLOSSARY.md`](./docs/GLOSSARY.md) — shared project terminology.
+- [`docs/adr/`](./docs/adr/) — architecture decision records (brand, fonts,
+  mark, release surfacing, build-time translation).
 
 ## License
 

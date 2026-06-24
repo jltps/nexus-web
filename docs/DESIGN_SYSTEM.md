@@ -9,20 +9,24 @@ governing rules, see `CLAUDE.md`.
 ## Tokens
 
 All tokens are CSS variables defined in `src/app/globals.css`. The values
-mirror the desktop app's `scribe/src/renderer/app/index.css` (lines
-16–110). The web swaps the dark-mode trigger from
-`@media (prefers-color-scheme: dark)` to `[data-theme="dark"]` so
+mirror the brand-relevant subset of the desktop app's
+`scribe/src/renderer/app/index.css` (v0.11.0 "ultra-moderno"; the app's
+depth/glass/glow and per-speaker/entity tokens are intentionally not mirrored —
+see `docs/adr/0001-mirror-iris-cyan-brand.md`). The web swaps the dark-mode
+trigger from `@media (prefers-color-scheme: dark)` to `[data-theme="dark"]` so
 `next-themes` can control it.
 
 | Concern | Token | Notes |
 |---|---|---|
 | Surface | `--background`, `--card`, `--popover`, `--muted` | Layered backgrounds |
 | Text | `--foreground`, `--muted-foreground`, `--card-foreground` | All semantic |
-| Brand | `--primary` (`#0f766e` light / `#2dd4bf` dark) | Single brand accent |
+| Brand | `--primary` / `--accent-iris` (`#5b3df0` light / `#8b7bff` dark) | Iris brand accent |
+| Brand 2 | `--accent-cyan` (`#0e7490` light / `#2ad4ee` dark) | Duotone second half |
+| Gradient | `--gradient-brand` | 135° iris→cyan; mark + one hero accent only |
 | Edge | `--border`, `--input`, `--ring` | `--ring` matches `--primary` |
 | Status | `--destructive`, `--warning`, `--info` | Avoid solo decorative use |
 | Shape | `--radius: 0.5rem` | Scale derived: `sm` 4px, `md` 6px, `lg` 8px, `xl` 12px |
-| Type | `--font-sans`, `--font-mono` | System stacks; no webfont |
+| Type | `--font-sans`, `--font-mono` | Self-hosted Geist + Geist Mono, system fallback |
 
 Use semantic Tailwind utilities: `bg-card`, `text-muted-foreground`,
 `text-primary`, `border` (defaults to `var(--border)` per `@layer base`).
@@ -102,7 +106,7 @@ is `max-w-6xl` for grids, `max-w-3xl` for prose.
 </div>
 ```
 
-This little teal-tinted square is the visual workhorse — it shows up in
+This little iris-tinted square is the visual workhorse — it shows up in
 the differentiators row, the feature grid, the privacy callout, and the
 download page reqs box. Keep it consistent.
 
@@ -149,8 +153,9 @@ identically.
 
 ## What to NOT add
 
-- Decorative gradients on text or buttons. The logo gradient is the only
-  gradient on the site.
+- Decorative gradients on text, buttons, or cards. The brand gradient
+  (`--gradient-brand`) is reserved for the logo mark and at most one hero
+  accent (see `docs/adr/0004-measured-ultra-moderno.md`).
 - Custom shadow scales. Use `shadow-xs`, `shadow-md`, `shadow-lg`.
 - Custom radius values. Use `rounded-sm/md/lg/xl/2xl/full`.
 - More than one weight family. Body is normal, emphasis is semibold. No

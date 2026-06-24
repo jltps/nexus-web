@@ -5,6 +5,7 @@ import {
   getRecentReleasesIncludingPrereleases,
   tagToVersion,
 } from "@/lib/github-releases";
+import { englishBody } from "@/lib/release-content";
 import { STATIC_CHANGELOG } from "@/lib/static-changelog";
 
 export const metadata: Metadata = {
@@ -124,7 +125,9 @@ export default async function ChangelogPage() {
   const liveEntries: Entry[] = live.map((r) => ({
     tag: r.tag_name,
     publishedAt: r.published_at,
-    body: effectiveBody(r.tag_name, r.body ?? ""),
+    // English from the translation cache when available, else the original body;
+    // effectiveBody then handles the empty-body fallback. (ADR 0006)
+    body: effectiveBody(r.tag_name, englishBody(r.tag_name, r.body ?? "")),
   }));
   const historyEntries: Entry[] = STATIC_CHANGELOG.filter(
     (r) => !liveVersions.has(tagToVersion(r.tag)),
