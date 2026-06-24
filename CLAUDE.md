@@ -110,6 +110,7 @@ nexus-web/
 │  │  ├─ brand-mark.ts        # shared orbit-node SVG mark string (logo + icon routes)
 │  │  ├─ release-content.ts   # read helpers over the committed translation cache
 │  │  ├─ release-translations.json  # committed English translation cache (CI-written)
+│  │  ├─ static-changelog.ts  # curated release history + fallback notes for empty/placeholder GitHub bodies
 │  │  ├─ stub-response.ts     # 501-with-Zod-validation helper
 │  │  └─ utils.ts             # cn()
 │  └─ shared/
@@ -191,6 +192,15 @@ Structural rules:
   `repository_dispatch`, then commits the refreshed cache. The release host is
   `jltps/nexus-releases` (override via `NEXUS_RELEASES_REPO`); `jltps/MeetingTranscriber`
   is the private source repo, not the release host.
+- Empty-body resilience: if a GitHub release ships with an empty or
+  punctuation-only body (e.g. a stray `-`), the changelog's `effectiveBody`
+  treats it as empty and falls back to a curated `src/lib/static-changelog.ts`
+  entry, and the homepage highlight falls back to the **first heading line of the
+  release body** (then to a static string) — so a release without notes never
+  renders blank or a lone dash. Going forward the desktop release pipeline
+  (`MeetingTranscriber`'s `.github/workflows/release.yml` +
+  `scripts/release-notes.mjs`) auto-populates each release's title + body from
+  Conventional-Commit subjects, so new releases carry their own notes.
 
 ## 7. Git & workflow
 

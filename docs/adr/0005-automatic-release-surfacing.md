@@ -49,7 +49,26 @@ for versions the public release host no longer carries.
 
 ## Alternatives considered
 
-- **First line of the release body.** Rejected: the first line is often a
-  paragraph, not a headline.
+- **First line of the release body.** Rejected as the *primary* source: the
+  first line is often a paragraph, not a headline. (Later adopted as a
+  **fallback** — see the update below — reading the first *heading* line only.)
 - **Auto version + hand-written highlight.** Rejected: still manual per release,
   which is the thing being fixed.
+
+## Update (2026-06-24): empty-body resilience + upstream auto-population
+
+Some releases later shipped with missing or placeholder notes (an empty body, or
+a stray `-`), which surfaced two gaps:
+
+- **Highlight body fallback.** When the latest release's title is a bare
+  `vX.Y.Z` (no `— <headline>`), `WhatsNew` now extracts the headline from the
+  **first heading line of the release body** before falling back to the static
+  string. This refines the rejected "first line of the body" alternative: it
+  reads the heading line, not an arbitrary paragraph, and only as a fallback.
+- **Placeholder bodies.** `effectiveBody` (changelog) now treats a body with no
+  letters or numbers as empty, so it falls back to `STATIC_CHANGELOG` instead of
+  rendering a lone dash.
+- **Upstream fix.** The desktop release pipeline now auto-populates each GitHub
+  release's title + body from Conventional-Commit subjects (`MeetingTranscriber`
+  `.github/workflows/release.yml` + `scripts/release-notes.mjs`), so an empty
+  body is the exception, not the norm.
