@@ -1,4 +1,9 @@
 {
+  "v0.11.3": {
+    "hash": "681446cdcdcfbb56bd2cdf79a0e0ada7a531adce7e9e1319b1ae3fbe61cd5b07",
+    "title_en": "0.11.3",
+    "body_en": "## Nexus v0.11.3 — window controls embedded in a shared header\n\nThe v0.11.2 top strip is gone. The minimize / maximize / close controls are now **embedded in the top-right corner of each screen**, over the operating surface — frameless, always visible, and where window controls are conventionally expected.\n\n- **One shared header.** Settings, Templates, Ask-across-meetings, and the note view (open + empty state) all render through a new shared `CanvasHeader` that pins the controls in a reserved top-right corner and doubles as the window drag handle — so a screen can never overlap them.\n- **Home floats them** in the identical spot, kept outside the scroll so they never scroll away.\n- **macOS** keeps its native traffic lights; the rail regains its macOS top inset.\n- A soft translucent backdrop keeps the controls legible over content.\n\nRenderer / window-chrome only — no database migration, no audio path or key handling touched. Updates install automatically in the background."
+  },
   "v0.11.2": {
     "hash": "10885988cb82169cfa14ac790b16fd08ac1e1b226d0d0fff41c47a0201ec6fc7",
     "title_en": "v0.11.2 — window controls top-right",
