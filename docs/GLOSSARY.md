@@ -42,13 +42,16 @@ disagrees with the repository, the code wins (`CLAUDE.md`).
 - **Live feed** — releases fetched from the release host at request time
   (Next `fetch` + 5-min ISR) via `src/lib/github-releases.ts`. Powers
   `/download` and `/changelog` automatically.
-- **`STATIC_CHANGELOG`** — `src/lib/static-changelog.ts`, a curated, English,
-  historical backfill for old versions the release host no longer carries. The
-  changelog renders the live feed and appends these (deduped by version, live
-  wins).
+- **`STATIC_CHANGELOG`** — `src/lib/static-changelog.ts`, a curated, English
+  changelog source with two roles: historical backfill for old versions the
+  release host no longer carries (appended after the live feed, deduped by
+  version, live wins), and the **fallback body** for a live release whose GitHub
+  body is empty or only a `-` placeholder (`effectiveBody` treats a body with no
+  letters/numbers as empty). A real release body always wins.
 - **Highlight** — the one-line "New in Nexus" headline on the homepage, derived
-  from the latest release title's text after the em-dash, with a static
-  fallback. See [ADR 0005](adr/0005-automatic-release-surfacing.md).
+  from the latest release title's text after the em-dash; if the title is a bare
+  version, it falls back to the **first heading line of the release body**, then
+  to a static string. See [ADR 0005](adr/0005-automatic-release-surfacing.md).
 - **Translation cache** — `src/lib/release-translations.json`, a committed
   tag→{hash,title_en,body_en} map produced by `scripts/translate-releases.ts`
   at build/CI time. Pages read it and fall back to the original GitHub text.
