@@ -19,6 +19,34 @@ export type StaticRelease = {
 };
 
 export const STATIC_CHANGELOG: StaticRelease[] = [
+  {
+    tag: "v0.13.0",
+    date: "2026-06-28T22:11:15Z",
+    title: "Smart diarization & Me voiceprint",
+    body: [
+      "- **Deferred-spawn buffer.** Short utterances (<1.5 s) from a new speaker accumulate until validated — no more permanent mislabel of first-encountered speakers.",
+      "- **SNR-aware centroid weighting.** Each embedding's contribution weighted by signal-to-noise ratio; noisy windows can't pull centroids off-centre.",
+      "- **Adaptive noise-floor calibration.** Silence gate calibrated from the session's first seconds of audio instead of a hardcoded threshold.",
+      "- **Peak-normalized voiced-mean Me ratio.** Filters inter-syllable energy valleys by considering only frames above 30% of peak RMS.",
+      "- **Me voiceprint enrollment.** ERes2NetV2 voiceprint cosine-compares against per-segment embeddings; close match halves dominance bar, poor match doubles it.",
+      "- **PCM bleed subtraction.** Single-tap least-squares echo cancellation generates a bleed-suppressed PCM stream for cleaner diarization embeddings.",
+      "- **95 unit tests**, all passing.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.12.0",
+    date: "2026-06-28T21:06:25Z",
+    title: "Diarization quality & dual-model A/B",
+    body: [
+      "- **Log-domain 'Me' dominance ratio.** Mic-vs-system dominance decided in log space, steadier across recording levels.",
+      "- **Lagged bleed cross-correlation.** Catches speaker→mic acoustic echo that arrives a few ms late.",
+      "- **ERLE-proxy echo detection.** Echo-return-loss estimate tightens or relaxes the dominance bar.",
+      "- **Frame-level VAD gating.** Clean single-channel patterns settled before energy-ratio check.",
+      "- **Deepgram end-of-call global re-cluster.** Threshold-free NME-SC re-cluster renumbers speakers across long calls.",
+      "- **Dual CAM++/ERes2NetV2 embedder.** Selectable via Settings toggle for A/B benchmarking.",
+      "- **Per-window embedding voting**, adaptive PCM ring buffer, and more.",
+    ].join("\n"),
+  },
   // These recent releases were published with an EMPTY GitHub body (the release
   // pipeline didn't write notes). They live here so effectiveBody() surfaces the
   // notes on the changelog until the pipeline backfills the GitHub releases
