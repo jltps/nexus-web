@@ -1,18 +1,18 @@
 {
   "v0.13.1": {
-    "hash": "c968189bdbdff816ac197fec6cb6f3a177935713977baa9a812bf12bbfdecf9e",
-    "title_en": "v0.13.1 — CAM++ model UI & embedder selector",
-    "body_en": "## Nexus v0.13.1\n\n### CAM++ model UI & embedder selector\n\nSettings UI + backend wiring for the dual-model diarization embedder system:\n\n- **CAM++ model manager.** Download, delete, and monitor the lighter CAM++ speaker-embedding model (~27 MB) alongside ERes2NetV2, directly from Transcription settings.\n- **Embedder model toggle.** Choose between ERes2NetV2 (default, ~71 MB, more accurate) and CAM++ (light, ~27 MB, faster inference).\n- **Persistent setting.** Your model choice is saved and remembered across sessions.\n- **Factory routing.** The active model is loaded on the next recording. Active model is logged for diagnostics."
+    "hash": "3cfe7a61bfad8db0da15d2b8f0d7cf03bc5e4a13191fd36346403c69b7e76af6",
+    "title_en": "v0.13.1 - CAM++ model UI & embedder selector",
+    "body_en": "## Nexus v0.13.1\n\n### What's new\n- CAM++ model UI & embedder selector"
   },
   "v0.13.0": {
-    "hash": "be8b1022037fe2a8ee7e01b1215affd193478fa41d333acd04e975814a44cf31",
-    "title_en": "v0.13.0 — Smart diarization & Me voiceprint",
-    "body_en": "## Nexus v0.13.0\n\n### Smart diarization & Me voiceprint\n\n- **Deferred-spawn buffer.** Short utterances (<1.5 s) from a new speaker accumulate until validated, preventing permanent mislabel of first-encountered speakers.\n- **SNR-aware centroid weighting.** Each embedding's contribution weighted by signal-to-noise ratio; noisy windows can't pull centroids off-centre.\n- **Adaptive noise-floor calibration.** Silence gate calibrated from session's first seconds instead of hardcoded threshold.\n- **Peak-normalized voiced-mean Me ratio.** Filters inter-syllable energy valleys by considering only frames above 30% of peak RMS.\n- **Me voiceprint enrollment.** ERes2NetV2 voiceprint that cosine-compares against per-segment embeddings; close match halves dominance bar, poor match doubles it.\n- **PCM bleed subtraction.** Single-tap least-squares echo cancellation generates bleed-suppressed PCM stream for cleaner diarization embeddings.\n- **95 unit tests**, all passing."
+    "hash": "9ab167034c67ffa7d411627542c3b86b1184020eed2b1b1d40782b097e23efd6",
+    "title_en": "v0.13.0 - Smart diarization v0.13",
+    "body_en": "## Nexus v0.13.0\n\n### What's new\n- Smart diarization v0.13"
   },
   "v0.12.0": {
-    "hash": "cd44e27d3f2c56cdf1a09e27854ea85fffd6e15f81a5e58fce6634f92ad9caf8",
-    "title_en": "v0.12.0 — Diarization quality & dual-model A/B",
-    "body_en": "## Nexus v0.12.0\n\n### Diarization quality & dual-model A/B\n\nA package of speaker-diarization and \"Me\"-attribution accuracy work.\n\n- **Log-domain \"Me\" dominance ratio.** `micDominatedWindow` decides mic-vs-system dominance in log space, steadier across recording levels.\n- **Lagged bleed cross-correlation.** Probes small time lags (~10 ms steps, up to ~30 ms) catching speaker→mic acoustic echo.\n- **ERLE-proxy echo detection.** Echo-return-loss estimate tightens or relaxes dominance bar, mirroring AEC confidence.\n- **Frame-level VAD gating.** Per-channel voice-activity settles clean single-channel patterns before energy-ratio check.\n- **Per-window embedding voting for long utterances.** Utterances >6 s sliced into overlapped sub-windows, each embedded + clustered + majority-voted.\n- **Deepgram end-of-call global re-cluster.** Segments cached live, then threshold-free NME-SC re-cluster at stop renumbers speakers globally.\n- **Adaptive PCM ring buffer.** Grows to track highest observed provider latency.\n- **Dual CAM++/ERes2NetV2 embedder system.** Lighter CAM++ model alongside ERes2NetV2, selectable via Settings toggle for A/B benchmarking."
+    "hash": "0d72d0b2bf325bc453a3815eef188c28d43c68a051b99eb44a419be5861689ae",
+    "title_en": "v0.12.0 - Diarization quality v0.12",
+    "body_en": "## Nexus v0.12.0\n\n### What's new\n- Diarization quality v0.12"
   },
   "v0.11.4": {
     "hash": "e42b16bcdfdd0fdaeaf489febdae1d7ee159123d924b95030c83b0128cd90fda",
