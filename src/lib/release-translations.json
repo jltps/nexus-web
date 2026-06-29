@@ -1,4 +1,9 @@
 {
+  "v0.15.2": {
+    "hash": "3db3dec9a9e2626e62d76e96e11346c3b42a9f9ccaadee8ff6c01a9b6dcd0ff0",
+    "title_en": "v0.15.2 - Show newly created notes at the top of the sidebar list",
+    "body_en": "## Nexus v0.15.2\n\n### Fixes\n- Show newly created notes at the top of the sidebar list"
+  },
   "v0.11.4": {
     "hash": "e42b16bcdfdd0fdaeaf489febdae1d7ee159123d924b95030c83b0128cd90fda",
     "title_en": "v0.11.4 - Folder actions, rich copy & find-in-note",
