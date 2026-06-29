@@ -49,17 +49,32 @@ const REVALIDATE_SECONDS = 300;
 /** Fetch a single release endpoint with the standard cache/header set.
  *  Returns null on 404 (no releases yet — important for the empty-state path). */
 async function gh(path: string): Promise<unknown | null> {
-  const headers: Record<string, string> = {
+  const url = `https://api.github.com/repos/${RELEASES_REPO}${path}`;
+  const baseHeaders: Record<string, string> = {
     Accept: "application/vnd.github+json",
     "X-GitHub-Api-Version": "2022-11-28",
   };
+
+  const fetchRelease = (headers: Record<string, string>) =>
+    fetch(url, {
+      headers,
+      next: { revalidate: REVALIDATE_SECONDS },
+    });
+
+  const headers = { ...baseHeaders };
   if (process.env.GITHUB_TOKEN) {
     headers.Authorization = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
-  const res = await fetch(`https://api.github.com/repos/${RELEASES_REPO}${path}`, {
-    headers,
-    next: { revalidate: REVALIDATE_SECONDS },
-  });
+
+  let res = await fetchRelease(headers);
+
+  // The releases repo is public and this token is only a rate-limit boost.
+  // If Vercel has a stale/revoked GITHUB_TOKEN, do not fail the whole static
+  // build; retry anonymously so the changelog and download pages still render.
+  if (res.status === 401 && process.env.GITHUB_TOKEN) {
+    res = await fetchRelease(baseHeaders);
+  }
+
   if (res.status === 404) return null;
   if (!res.ok) {
     throw new Error(
