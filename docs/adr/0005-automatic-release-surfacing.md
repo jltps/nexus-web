@@ -72,3 +72,13 @@ a stray `-`), which surfaced two gaps:
   release's title + body from Conventional-Commit subjects (`MeetingTranscriber`
   `.github/workflows/release.yml` + `scripts/release-notes.mjs`), so an empty
   body is the exception, not the norm.
+
+## Update (2026-06-29): curated headline wins
+
+The auto-populated bodies turned out to be thin (a single commit-subject bullet),
+so a hand-written `STATIC_CHANGELOG` entry now takes precedence. `WhatsNew` first
+asks `curatedRelease(latestTag)` and, when an entry exists, uses its `title` as
+the highlight verbatim (the curated title *is* the headline). The em-dash/title
+and first-heading-line extraction above remain the fallback chain for releases
+without a curated entry. See [ADR 0006](0006-build-time-release-translation.md)'s
+2026-06-29 update for the matching changelog-side change and the cache rules.

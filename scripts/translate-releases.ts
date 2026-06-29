@@ -18,7 +18,20 @@ import { createHash } from "node:crypto";
 import { readFileSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 
+import { STATIC_CHANGELOG } from "../src/lib/static-changelog";
+
 const RELEASES_REPO = process.env.NEXUS_RELEASES_REPO ?? "jltps/nexus-releases";
+
+/** Versions (leading "v" stripped) that have a curated entry in
+ *  static-changelog.ts. Those are authoritative on the site (curatedRelease in
+ *  release-content.ts), so the cache must never store — let alone re-translate
+ *  and clobber — them. Mirrors `curatedRelease`'s normalization. */
+const CURATED_VERSIONS = new Set(
+  STATIC_CHANGELOG.map((s) => s.tag.replace(/^v/, "")),
+);
+function isCurated(tag: string): boolean {
+  return CURATED_VERSIONS.has(tag.replace(/^v/, ""));
+}
 const ANTHROPIC_KEY = process.env.ANTHROPIC_API_KEY;
 const MODEL = process.env.TRANSLATE_MODEL ?? "claude-haiku-4-5-20251001";
 const CACHE_PATH = join(process.cwd(), "src", "lib", "release-translations.json");
@@ -131,6 +144,17 @@ async function translate(
 
 async function main(): Promise<void> {
   const cache = readCache();
+
+  // Curated tags are authoritative on the site; evict any that linger in the
+  // cache so a prior run's stale (or clobbered) entry can never resurface.
+  let pruned = 0;
+  for (const tag of Object.keys(cache)) {
+    if (isCurated(tag)) {
+      delete cache[tag];
+      pruned++;
+    }
+  }
+
   const releases = (await fetchReleases()).filter((r) => !r.draft);
   console.log(`Found ${releases.length} releases in ${RELEASES_REPO}.`);
 
@@ -139,6 +163,8 @@ async function main(): Promise<void> {
   let skipped = 0;
 
   for (const r of releases) {
+    // Never translate a curated release — its hand-written notes win.
+    if (isCurated(r.tag_name)) continue;
     const title = (r.name ?? r.tag_name).trim();
     const body = r.body ?? "";
     const hash = sourceHash(title, body);
@@ -167,9 +193,12 @@ async function main(): Promise<void> {
     );
   }
 
-  if (translated > 0) {
+  if (translated > 0 || pruned > 0) {
     writeCache(cache);
-    console.log(`✓ Wrote ${translated} translation(s). Up to date: ${upToDate}.`);
+    console.log(
+      `✓ Wrote ${translated} translation(s); pruned ${pruned} curated entr` +
+        `${pruned === 1 ? "y" : "ies"}. Up to date: ${upToDate}.`,
+    );
   } else {
     console.log(`✓ Nothing to translate. Up to date: ${upToDate}.`);
   }

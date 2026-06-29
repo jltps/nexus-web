@@ -7,11 +7,13 @@ name: Translate release notes
 
 on:
   schedule:
-    - cron: "0 */6 * * *" # every 6 hours
+    - cron: "0 * * * *" # hourly — safety net behind the on-publish dispatch below
   workflow_dispatch: {}
   repository_dispatch:
-    # The releases repo can POST a dispatch with this type on publish to refresh
-    # the cache immediately (optional; the schedule covers it otherwise).
+    # The source repo's release pipeline (MeetingTranscriber → notify-web job)
+    # POSTs this dispatch on publish so a new release surfaces within ~minutes;
+    # the hourly schedule is the guaranteed fallback if that dispatch can't
+    # reach this repo (e.g. its PAT lacks Contents:write here).
     types: [release-published]
 
 permissions:

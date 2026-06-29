@@ -187,20 +187,31 @@ Structural rules:
   `scripts/translate-releases.ts` (Anthropic Messages API over plain `fetch`, no
   new dependency) and rewrites `src/lib/release-translations.json`; it no-ops
   gracefully when `ANTHROPIC_API_KEY` is unset, so local builds without the key
-  still pass. The `.github/workflows/translate-releases.yml` workflow runs it on a
-  6-hour cron, on `workflow_dispatch`, and on a `release-published`
-  `repository_dispatch`, then commits the refreshed cache. The release host is
+  still pass. The `.github/workflows/translate-releases.yml` workflow runs it on an
+  **hourly** cron (safety net), on `workflow_dispatch`, and on a `release-published`
+  `repository_dispatch` — the source repo's release pipeline
+  (`MeetingTranscriber` → `notify-web` job) POSTs that dispatch on publish so a new
+  release surfaces within ~minutes; the cron covers the case where its PAT can't
+  reach this repo. The job then commits the refreshed cache. The release host is
   `jltps/nexus-releases` (override via `NEXUS_RELEASES_REPO`); `jltps/MeetingTranscriber`
   is the private source repo, not the release host.
-- Empty-body resilience: if a GitHub release ships with an empty or
-  punctuation-only body (e.g. a stray `-`), the changelog's `effectiveBody`
-  treats it as empty and falls back to a curated `src/lib/static-changelog.ts`
-  entry, and the homepage highlight falls back to the **first heading line of the
-  release body** (then to a static string) — so a release without notes never
-  renders blank or a lone dash. Going forward the desktop release pipeline
-  (`MeetingTranscriber`'s `.github/workflows/release.yml` +
+- **Curated notes win.** A hand-written `src/lib/static-changelog.ts` entry is
+  authoritative: when one exists for a version, both the changelog (`effectiveBody`)
+  and the homepage highlight prefer it over the auto-generated GitHub body — which
+  the desktop pipeline fills from Conventional-Commit subjects and is often thin or
+  redundant. `curatedRelease` (in `lib/release-content.ts`) is the single matcher
+  both surfaces use. Because curated entries win, the translation cache must never
+  hold them: `translate-releases.ts` skips curated tags and prunes any that linger,
+  so a cron refresh can never clobber curated notes (a real regression we hit). The
+  cache therefore only ever stores **non-curated** live releases.
+- Fallbacks for non-curated releases: the changelog's `effectiveBody` treats an
+  empty or punctuation-only body (e.g. a stray `-`) as empty and shows a neutral
+  line; the homepage highlight extracts the headline from a `vX.Y.Z — <headline>`
+  title, then the **first heading line of the release body**, then a static string —
+  so a release without notes never renders blank or a lone dash. The desktop release
+  pipeline (`MeetingTranscriber`'s `.github/workflows/release.yml` +
   `scripts/release-notes.mjs`) auto-populates each release's title + body from
-  Conventional-Commit subjects, so new releases carry their own notes.
+  Conventional-Commit subjects, so an un-curated release still carries real notes.
 
 ## 7. Git & workflow
 

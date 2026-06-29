@@ -5,7 +5,7 @@ import {
   getRecentReleasesIncludingPrereleases,
   tagToVersion,
 } from "@/lib/github-releases";
-import { englishBody } from "@/lib/release-content";
+import { curatedRelease, englishBody } from "@/lib/release-content";
 import { STATIC_CHANGELOG } from "@/lib/static-changelog";
 
 export const metadata: Metadata = {
@@ -111,14 +111,16 @@ function hasRealContent(s: string): boolean {
   return /[\p{L}\p{N}]/u.test(s);
 }
 
-/** Resolve an effective body for a live release: prefer the GitHub release
- *  body, fall back to a matching STATIC_CHANGELOG entry, then to a neutral
- *  placeholder. A body that is only punctuation/whitespace (e.g. a "-"
- *  placeholder) counts as empty, so the curated fallback wins. */
+/** Resolve an effective body for a live release. A curated STATIC_CHANGELOG
+ *  entry wins when present (hand-written notes are authoritative over the
+ *  auto-generated GitHub body — see curatedRelease / CLAUDE.md §6); otherwise
+ *  use the GitHub body, treating a punctuation/whitespace-only placeholder
+ *  (e.g. a stray "-") as empty and falling back to a neutral line. The curated
+ *  body leads with its title as a heading, matching the history entries. */
 function effectiveBody(tag: string, body: string): string {
+  const curated = curatedRelease(tag);
+  if (curated) return `## ${curated.title}\n\n${curated.body}`;
   if (hasRealContent(body)) return body;
-  const fallback = STATIC_CHANGELOG.find((s) => s.tag === tag);
-  if (fallback) return fallback.body;
   return "Release notes not provided.";
 }
 

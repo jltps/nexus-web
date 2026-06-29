@@ -1,43 +1,8 @@
 {
-  "v0.14.0": {
-    "hash": "b79c68b2198c86d4dd781d56addb6a1993e677525385c3764a7a18e5f0b18101",
-    "title_en": "v0.14.0 - Ship in-person & hybrid meeting mode v0.14.0",
-    "body_en": "## Nexus v0.14.0\n\n### What's new\n- Ship in-person & hybrid meeting mode v0.14.0\n- In-person & hybrid meeting mode (v0.14.0)"
-  },
-  "v0.13.1": {
-    "hash": "3cfe7a61bfad8db0da15d2b8f0d7cf03bc5e4a13191fd36346403c69b7e76af6",
-    "title_en": "v0.13.1 - CAM++ model UI & embedder selector",
-    "body_en": "## Nexus v0.13.1\n\n### What's new\n- CAM++ model UI & embedder selector"
-  },
-  "v0.13.0": {
-    "hash": "9ab167034c67ffa7d411627542c3b86b1184020eed2b1b1d40782b097e23efd6",
-    "title_en": "v0.13.0 - Smart diarization v0.13",
-    "body_en": "## Nexus v0.13.0\n\n### What's new\n- Smart diarization v0.13"
-  },
-  "v0.12.0": {
-    "hash": "0d72d0b2bf325bc453a3815eef188c28d43c68a051b99eb44a419be5861689ae",
-    "title_en": "v0.12.0 - Diarization quality v0.12",
-    "body_en": "## Nexus v0.12.0\n\n### What's new\n- Diarization quality v0.12"
-  },
   "v0.11.4": {
     "hash": "e42b16bcdfdd0fdaeaf489febdae1d7ee159123d924b95030c83b0128cd90fda",
     "title_en": "v0.11.4 - Folder actions, rich copy & find-in-note",
     "body_en": "## Nexus v0.11.4\n\n### What's new\n- Visible Find button in the note header\n- Collapsible capture HUD\n- Copy AI summary as rich text + find-in-note\n- Folder actions menu, sort modes & drag reorder\n\n### Fixes\n- Copy summary via main-process clipboard"
-  },
-  "v0.11.3": {
-    "hash": "681446cdcdcfbb56bd2cdf79a0e0ada7a531adce7e9e1319b1ae3fbe61cd5b07",
-    "title_en": "0.11.3",
-    "body_en": "## Nexus v0.11.3 — window controls embedded in a shared header\n\nThe v0.11.2 top strip is gone. The minimize / maximize / close controls are now **embedded in the top-right corner of each screen**, over the operating surface — frameless, always visible, and where window controls are conventionally expected.\n\n- **One shared header.** Settings, Templates, Ask-across-meetings, and the note view (open + empty state) all render through a new shared `CanvasHeader` that pins the controls in a reserved top-right corner and doubles as the window drag handle — so a screen can never overlap them.\n- **Home floats them** in the identical spot, kept outside the scroll so they never scroll away.\n- **macOS** keeps its native traffic lights; the rail regains its macOS top inset.\n- A soft translucent backdrop keeps the controls legible over content.\n\nRenderer / window-chrome only — no database migration, no audio path or key handling touched. Updates install automatically in the background."
-  },
-  "v0.11.2": {
-    "hash": "10885988cb82169cfa14ac790b16fd08ac1e1b226d0d0fff41c47a0201ec6fc7",
-    "title_en": "v0.11.2 — window controls top-right",
-    "body_en": "-"
-  },
-  "v0.11.1": {
-    "hash": "ce8fd76a23f409d86d748e3ef7042f4336846353be765de98444fb28d3725a72",
-    "title_en": "v0.11.1 — shell cleanup",
-    "body_en": "-"
   },
   "v0.11.0": {
     "hash": "7d929bba5f6599f5dddd50718fa3f38dd9edca79ebd1cb10e9a77e4968d0b1cf",
@@ -63,10 +28,5 @@
     "hash": "630240e62386cd63f02d32bcc66a694b54f3d93fb820f895ebff76a39b91b384",
     "title_en": "0.9.2",
     "body_en": "## Nexus 0.9.2 — stability & correctness\n\nA maintenance release from a full‑codebase review. No new features — 12 fixes, including two data‑integrity/privacy invariants. Auto‑update installs it automatically.\n\n**Fixes**\n- Transcription no longer defaults to English on a fresh install — it auto‑detects (or uses your chosen language).\n- \"Wipe all data\" now also removes your custom templates.\n- More resilient Deepgram reconnect — no runaway reconnect loops on a flaky network.\n- A trailing line of transcript is no longer dropped when you stop a recording.\n- Microsoft Calendar stays connected more reliably (no spurious \"please reconnect\").\n- Offline Whisper can no longer hang the app on quit.\n- Search works correctly after restoring from a backup.\n- More accurate cost estimates for meetings recorded across multiple sessions.\n- Sturdier error handling for the Insights panel and calendar disconnect.\n- The update screen no longer says \"Downloading…\" before a download actually starts.\n\nUnder the hood: one additive database migration (channel‑accurate cost), 359 tests green, no new dependencies."
-  },
-  "v0.9.1": {
-    "hash": "72f008b3488c42683c1509377ecd06b59825e8507356ace66d3047cada51be6f",
-    "title_en": "0.9.1",
-    "body_en": "### Maintenance\n- Improves how Nexus delivers updates, so future versions install automatically.\n\n### Updating from a version before 0.9.1 (one-time)\n- Older versions won't show an in-app update prompt. Download and run the latest installer once from the Download page — your meetings, notes, and settings are kept — and Nexus will keep itself updated automatically from then on."
   }
 }
