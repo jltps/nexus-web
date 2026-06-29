@@ -20,6 +20,17 @@ export type StaticRelease = {
 
 export const STATIC_CHANGELOG: StaticRelease[] = [
   {
+    tag: "v0.13.1",
+    date: "2026-06-28T23:59:40Z",
+    title: "CAM++ model UI & embedder selector",
+    body: [
+      "- **CAM++ model manager.** Download, delete, and monitor the lighter CAM++ speaker-embedding model (~27 MB) alongside ERes2NetV2, directly from Transcription settings.",
+      "- **Embedder model toggle.** Choose between ERes2NetV2 (default, ~71 MB, more accurate) and CAM++ (light, ~27 MB, faster inference) with a ToggleGroup.",
+      "- **Persistent setting.** Your model choice is saved across sessions and loaded on the next recording.",
+      "- **Factory routing.** LocalDiarizer reads the setting and instantiates the correct embedder; active model is logged for diagnostics.",
+    ].join("\n"),
+  },
+  {
     tag: "v0.13.0",
     date: "2026-06-28T22:11:15Z",
     title: "Smart diarization & Me voiceprint",

@@ -1,4 +1,9 @@
 {
+  "v0.13.1": {
+    "hash": "c968189bdbdff816ac197fec6cb6f3a177935713977baa9a812bf12bbfdecf9e",
+    "title_en": "v0.13.1 — CAM++ model UI & embedder selector",
+    "body_en": "## Nexus v0.13.1\n\n### CAM++ model UI & embedder selector\n\nSettings UI + backend wiring for the dual-model diarization embedder system:\n\n- **CAM++ model manager.** Download, delete, and monitor the lighter CAM++ speaker-embedding model (~27 MB) alongside ERes2NetV2, directly from Transcription settings.\n- **Embedder model toggle.** Choose between ERes2NetV2 (default, ~71 MB, more accurate) and CAM++ (light, ~27 MB, faster inference).\n- **Persistent setting.** Your model choice is saved and remembered across sessions.\n- **Factory routing.** The active model is loaded on the next recording. Active model is logged for diagnostics."
+  },
   "v0.13.0": {
     "hash": "be8b1022037fe2a8ee7e01b1215affd193478fa41d333acd04e975814a44cf31",
     "title_en": "v0.13.0 — Smart diarization & Me voiceprint",
