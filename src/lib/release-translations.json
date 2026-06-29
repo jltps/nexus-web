@@ -1,4 +1,9 @@
 {
+  "v0.14.0": {
+    "hash": "b79c68b2198c86d4dd781d56addb6a1993e677525385c3764a7a18e5f0b18101",
+    "title_en": "v0.14.0 - Ship in-person & hybrid meeting mode v0.14.0",
+    "body_en": "## Nexus v0.14.0\n\n### What's new\n- Ship in-person & hybrid meeting mode v0.14.0\n- In-person & hybrid meeting mode (v0.14.0)"
+  },
   "v0.13.1": {
     "hash": "3cfe7a61bfad8db0da15d2b8f0d7cf03bc5e4a13191fd36346403c69b7e76af6",
     "title_en": "v0.13.1 - CAM++ model UI & embedder selector",
