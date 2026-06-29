@@ -25,7 +25,9 @@ Translate at **build/CI time into a committed cache**, not at render time.
 - `scripts/translate-releases.ts` — fetches releases from the public release
   repo, and for each whose source-content hash is **not already cached**, calls
   the Anthropic Messages API (plain `fetch`, no new dependency) with
-  `claude-haiku-4-5` to translate to English (English passes through unchanged).
+  `claude-haiku-4-5` (the script's `MODEL` default is a pinned dated snapshot,
+  overridable via `TRANSLATE_MODEL`) to translate to English (English passes
+  through unchanged).
   Writes the updated cache. **Degrades gracefully:** with no
   `ANTHROPIC_API_KEY` it no-ops, leaving the cache intact, so local
   `build`/`typecheck` never require a key.
@@ -57,3 +59,29 @@ Translate at **build/CI time into a committed cache**, not at render time.
   dependency.
 - **Author release notes in English.** Simplest, zero infra — but manual, and
   the user wants it automatic for mixed-language notes. Rejected.
+
+## Update (2026-06-29): curated notes win; cache excludes them; hourly cron
+
+Two problems surfaced once the desktop pipeline started auto-populating GitHub
+release bodies from commit subjects:
+
+1. **The cron clobbered curated notes.** Hand-written entries that had been
+   edited into `release-translations.json` were overwritten the next time the
+   scheduled run re-translated the (now non-empty, but thin) GitHub body — the
+   rich notes for v0.12.0/v0.13.0/v0.13.1 were silently reduced to a single
+   "What's new" bullet.
+2. **Curated `static-changelog.ts` entries were shadowed.** `effectiveBody` only
+   fell back to a curated entry when the live body was *empty*; once the pipeline
+   filled bodies, the thin auto-generated text always won, so the curated rich
+   notes never rendered.
+
+**Decision:** curated entries are **authoritative**. `curatedRelease`
+(`lib/release-content.ts`) matches a tag to its `static-changelog.ts` entry;
+both `/changelog` (`effectiveBody`) and the homepage highlight prefer it over the
+live body. The translation cache therefore stores **only non-curated** live
+releases: `translate-releases.ts` skips curated tags and prunes any that linger,
+so a refresh can never clobber curation again. The cron is now **hourly** (was
+6h) as a safety net behind the on-publish `repository_dispatch`. Pages still fall
+back to the (translated) live body, then a neutral line, for any release without
+a curated entry — so automation still covers everything by default; curation is
+an opt-in upgrade per release.

@@ -20,6 +20,48 @@ export type StaticRelease = {
 
 export const STATIC_CHANGELOG: StaticRelease[] = [
   {
+    tag: "v0.15.1",
+    date: "2026-06-29T12:43:39Z",
+    title: "In-person mic auto gain",
+    body: [
+      "### New",
+      "- **Automatic mic gain in the room.** In-person capture now turns on automatic gain control, lifting a quiet or distant room microphone so soft speech is picked up. Call and Hybrid leave it off, to keep your own-voice ('Me') detection stable.",
+      "### Notes",
+      "- Echo cancellation and noise suppression stay off in every mode — an aggressive denoiser can scrub quiet speech. No data changes, and no audio is ever written to disk.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.15.0",
+    date: "2026-06-29T11:56:34Z",
+    title: "In-person capture fixes",
+    body: [
+      "Follow-up hardening of the v0.14 in-person & hybrid modes, after a report of an empty in-person transcript. Three real fixes:",
+      "### Fixes",
+      "- **Offline Whisper transcribes in-person audio correctly.** Mono capture was being mis-read as two channels and aliased into silence-prone half-rate streams; Whisper now respects the mono channel, so in-person and hybrid transcripts come through cleanly.",
+      "- **No more misleading 'no system audio' warning in the room.** In-person captures only your mic, so the system-audio silence alert no longer fires there — you get mic-focused guidance (check the input device and mute state) instead. The warning still applies to Call and Hybrid.",
+      "- **Cleaner quiet-room transcription.** Gladia's audio enhancer — which could scrub a single quiet room mic below the speech-detection threshold and empty the transcript — is now off for in-person capture and stays on for Call and Hybrid.",
+      "### Notes",
+      "- No data changes, and the privacy invariants are unchanged: in-person audio is processed in memory and never written to disk.",
+    ].join("\n"),
+  },
+  {
+    tag: "v0.14.0",
+    date: "2026-06-29T10:40:54Z",
+    title: "In-person & hybrid meeting mode",
+    body: [
+      "### New",
+      "- **In-person & hybrid meeting modes.** A new segmented control picks how Nexus captures a meeting: **Call** (remote, the default), **In-person** (everyone in the room), or **Hybrid** (in-room plus remote guests).",
+      "- **Mic-only in-person capture.** In-person records just your microphone — no system audio — so a room conversation is transcribed cleanly. Hybrid captures both your mic and system audio; Call is unchanged.",
+      "- **Mark as Me.** Tag any speaker's line as your own voice — or unmark one of yours — right in the transcript. Handy in the room, where automatic 'Me' detection doesn't apply.",
+      "### Changed",
+      "- **Mode-aware speaker handling.** Automatic 'Me' attribution is reserved for Call mode; In-person and Hybrid use neutral speaker labels until you tag them, and a hardware tip helps you pick the right input device.",
+      "### Fixes",
+      "- **Start from Home or the agenda records the right meeting.** Starting a capture from the Home screen or the agenda now always records against the meeting you picked, instead of a stale selection.",
+      "### Notes",
+      "- Your data is untouched (an additive database upgrade adds the recording mode; existing meetings stay 'Call'). The privacy invariants are unchanged: no audio is ever written to disk.",
+    ].join("\n"),
+  },
+  {
     tag: "v0.13.1",
     date: "2026-06-28T23:59:40Z",
     title: "CAM++ model UI & embedder selector",

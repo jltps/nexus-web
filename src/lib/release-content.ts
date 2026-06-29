@@ -11,6 +11,7 @@
  */
 
 import translationsJson from "./release-translations.json";
+import { STATIC_CHANGELOG, type StaticRelease } from "./static-changelog";
 
 export type ReleaseTranslation = {
   /** sha256 of the source `title + "\n" + body`, so the script knows when to
@@ -23,6 +24,29 @@ export type ReleaseTranslation = {
 type TranslationMap = Record<string, ReleaseTranslation>;
 
 const translations = translationsJson as TranslationMap;
+
+/** Strip a leading "v" so "v0.13.0" and "0.13.0" compare equal. (Local copy to
+ *  keep this pure read-layer module free of the server-only github-releases
+ *  import; mirrors its `tagToVersion`.) */
+function normalizeVersion(tag: string): string {
+  return tag.replace(/^v/, "");
+}
+
+/** The curated changelog entry for a tag, if one exists (matched by version,
+ *  leading "v" ignored).
+ *
+ *  Curated entries in `static-changelog.ts` are **authoritative**: the site
+ *  prefers them over the auto-generated GitHub release body. The desktop
+ *  release pipeline fills each release body from Conventional-Commit subjects,
+ *  which is reliable but thin/redundant; a hand-written entry, when present,
+ *  wins on both the changelog and the homepage highlight. Releases without a
+ *  curated entry fall back to the (translated) live GitHub body. The
+ *  translation cache never stores curated tags — see
+ *  `scripts/translate-releases.ts`. (ADR 0005 / 0006, CLAUDE.md §6.) */
+export function curatedRelease(tag: string): StaticRelease | undefined {
+  const v = normalizeVersion(tag);
+  return STATIC_CHANGELOG.find((s) => normalizeVersion(s.tag) === v);
+}
 
 /** English release title: cached translation by tag, else the original GitHub
  *  release name, else the tag itself. */

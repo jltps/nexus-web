@@ -2,6 +2,7 @@ import Link from "next/link";
 import { ArrowRight, Sparkles } from "lucide-react";
 import { getLatestRelease } from "@/lib/github-releases";
 import {
+  curatedRelease,
   englishBody,
   englishTitle,
   extractHighlight,
@@ -18,9 +19,13 @@ async function resolveHighlight(): Promise<string> {
   try {
     const latest = await getLatestRelease();
     if (!latest) return FALLBACK_HIGHLIGHT;
-    // Prefer the headline in the release title (`vX.Y.Z — <headline>`). If the
-    // title is just a bare version, fall back to the first heading line of the
-    // body (releases whose notes open with their own `## … — <headline>`).
+    // A curated entry's title IS the headline — use it verbatim when we have
+    // one (curated wins; see curatedRelease / CLAUDE.md §6).
+    const curated = curatedRelease(latest.tag_name);
+    if (curated) return curated.title;
+    // Otherwise prefer the headline in the release title (`vX.Y.Z — <headline>`).
+    // If the title is just a bare version, fall back to the first heading line
+    // of the body (releases whose notes open with their own `## … — <headline>`).
     const fromTitle = extractHighlight(englishTitle(latest.tag_name, latest.name));
     if (fromTitle) return fromTitle;
     const firstLine = englishBody(latest.tag_name, latest.body)
