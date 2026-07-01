@@ -1,4 +1,14 @@
 {
+  "v0.16.1": {
+    "hash": "83c1d28d6ecaab9433468385ff686d3da29138804b8e0eb4e37d65cda3fa5697",
+    "title_en": "v0.16.1 - Recover orphaned \"transcribing\" meetings so a failed stop never loses a recording",
+    "body_en": "## Nexus v0.16.1\n\n### Fixes\n- Recover orphaned \"transcribing\" meetings so a failed stop never loses a recording"
+  },
+  "v0.16.0": {
+    "hash": "205e0ed92f1c1148ef79c3c9773f5f356d147135567445f6ba3f9767a6dbf482",
+    "title_en": "v0.16.0 — European Portuguese support & Deepgram tuning",
+    "body_en": "## Nexus v0.16.0 — European Portuguese support & Deepgram tuning\n\n### What's new\n- **European Portuguese now works properly.** Gladia can't transcribe European Portuguese (pt-PT), so the language picker hides that option when Gladia is selected and points you to Deepgram, whose model is tuned for European Portuguese.\n- **Fixed a \"401 / key rejected\" error on Deepgram.** Pasted API keys are now cleaned up automatically — a stray \"Token \" prefix, quotes, or invisible characters no longer break the connection — and the error message tells you what to check.\n- **Steadier Deepgram transcription.** A shorter keep-alive avoids idle disconnects on long meetings, the last words of a meeting are no longer cut off when you stop, numbers render as digits, and a new keyterm hint improves recognition of names and jargon."
+  },
   "v0.15.2": {
     "hash": "3db3dec9a9e2626e62d76e96e11346c3b42a9f9ccaadee8ff6c01a9b6dcd0ff0",
     "title_en": "v0.15.2 - Show newly created notes at the top of the sidebar list",
