@@ -1,4 +1,9 @@
 {
+  "v0.16.2": {
+    "hash": "a16e6081e33fd5324399830b4267bc0e526415c96b85c7f174c28d7fcb0a26cc",
+    "title_en": "v0.16.2 - Preserve unsupported/nested editor blocks and recording_mode across save & restore",
+    "body_en": "## Nexus v0.16.2\n\n### Fixes\n- Preserve unsupported/nested editor blocks and recording_mode across save & restore\n- Tear down failed-start sessions and surface capture/inference failures\n- Stop re-enhance and view toggles from destroying user edits\n- Normalize regional language codes so fixed-language transcription isn't empty"
+  },
   "v0.16.1": {
     "hash": "83c1d28d6ecaab9433468385ff686d3da29138804b8e0eb4e37d65cda3fa5697",
     "title_en": "v0.16.1 - Recover orphaned \"transcribing\" meetings so a failed stop never loses a recording",
