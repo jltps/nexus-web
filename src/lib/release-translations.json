@@ -1,4 +1,9 @@
 {
+  "v0.16.4": {
+    "hash": "d099edfc09e6c2b55f71fa9bd0002e9ec5e57b95ae37912deb8cbe4fe787eb1b",
+    "title_en": "v0.16.4 — v0.16.3 code-review follow-up fixes",
+    "body_en": "## Nexus v0.16.4\n\nFollow-up fixes from a full code review of the v0.16.3 release — it caught a handful of regressions introduced by v0.16.3's own changes, all fixed here.\n\n### Fixes\n- **Speaker labels no longer scramble on a quick stop→start.** With local diarization on, stopping a meeting and immediately starting another could leave the just-stopped meeting's speaker labels mislabeled; the session guards now protect the diarization hand-off across a rapid restart.\n- **Onboarding with only a Gladia key works.** Entering just a Gladia key during setup no longer leaves you on Deepgram with no key (recording would fail to start) — each key you add activates its own provider.\n- **Enhanced notes are no longer duplicated.** Reverted a preservation guard that could duplicate your own notes when the model rephrased or translated them.\n- **\"Wipe all data\" is more robust.** A failed/locked wipe now cleanly restores its secure-delete setting instead of leaving it half-applied.\n- **Shutdown reliability.** A second quit signal during shutdown no longer skips the final save.\n- **No stale \"disconnected\" flicker** from an orphaned transcription session.\n\nNo new features — a stability patch on top of v0.16.3."
+  },
   "v0.16.3": {
     "hash": "20ddb2d98d20633c307ba7c4d8a256d5df2874de303bbac2b48d9b712ddd1e64",
     "title_en": "v0.16.3 — Reliability, privacy & notes-integrity hardening (Insights retired)",
